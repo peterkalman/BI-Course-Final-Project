@@ -1,0 +1,759 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/17/2021 11:51:17 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6P5Q8A8"
+  DTS:CreatorName="DESKTOP-6P5Q8A8\Peter-New"
+  DTS:DTSID="{6AF797A3-4CAD-4069-B6E6-FA917D69533C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="X_TruncateAllDWH"
+  DTS:PackageType="5"
+  DTS:VersionBuild="52"
+  DTS:VersionGUID="{2BA05745-F7FF-4CC5-AC57-357149A531EA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2F731ED7-1B50-4685-A81A-8D0770C0D9DC}"
+      DTS:ObjectName="LocalHost.Northwind1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+      DTS:ObjectName="LocalHost.Northwind_DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind_DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Dim and Fact"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{618A94CD-B09D-4977-824E-875A11CC0277}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Dim and Fact">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Dim and Fact\Cleanup DimCategories"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{977cdc61-21bb-4fa2-adc3-cd12762fd618}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup DimCategories"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="5">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DimCategories" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Dim and Fact\Cleanup DimCustomers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{7452227a-2396-404f-8b09-060a56134afc}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup DimCustomers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DimCustomers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Dim and Fact\Cleanup DimEmployees"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{77ebe249-b826-4cb8-98da-a1355d8e54d1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup DimEmployees"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DimEmployees" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Dim and Fact\Cleanup DimProducts"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5a89ad17-c6fd-45d6-b4c2-60b6ee84477d}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup DimProducts"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DimProducts" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Dim and Fact\Cleanup DimShippers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{c7bd0827-752c-4645-b657-8ab82d495fa8}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup DimShippers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="6">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DimShippers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Dim and Fact\Cleanup DimSuppliers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{bb0aafd2-bec9-4212-a839-79b4b09153dd}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup DimSuppliers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="7">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DimSuppliers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Dim and Fact\Cleanup FactOrders"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{588e957b-14fd-439c-baa6-93edd2cc205b}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup FactOrders"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE FactOrders" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Dim and Fact\DimCities Cleanup"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{bc5c0555-cd59-402e-a303-89a56f033d2e}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DimCities Cleanup"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DimCities" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate History"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{78E967D9-EAC7-4EB6-8E02-AFA67E9D2308}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate History">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Truncate History\Cleanup Hist_FactOrders"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{4BD1866E-50E9-4011-B802-F8953F36ECB3}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup Hist_FactOrders"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="Truncate table Hist_FactOrders" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Mirrors"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{F2B8BF4E-638F-4B72-8B7D-507FA9EF7A16}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Mirrors">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Mirrors\Truncate MirrorCategories"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{42df2f96-51ec-49bc-b479-59e441058005}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorCategories"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorCategories" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Mirrors\Truncate MirrorCustomers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{d3ebf2bc-b34d-4841-b87e-a2e4eb20bb33}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorCustomers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="6">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorCustomers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Mirrors\Truncate MirrorEmployees"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{1ceeb031-698f-4cef-8b24-3c14994304e1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorEmployees"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorEmployees" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Mirrors\Truncate MirrorOrderDetails"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{fbceacae-8b90-4a27-9c67-f4683c5b8f4b}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorOrderDetails"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorOrderDetails" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Mirrors\Truncate MirrorOrders"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{3cc925df-6e1f-423f-9eba-b6301eec9b44}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorOrders"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="5">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorOrders" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Mirrors\Truncate MirrorProducts"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{89b06b83-a610-4756-9707-62bd6557eec6}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorProducts"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorProducts" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Mirrors\Truncate MirrorShippers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{31e5b24f-ce8f-43a2-9068-7334bbf9e4d6}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorShippers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="7">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorShippers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Mirrors\Truncate MirrorSuppliers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{26019398-6e24-4149-bee8-db6217aa0d8c}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorSuppliers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorSuppliers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Stages"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{1CD46B22-4171-4583-A081-30BF1B10B183}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Stages">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Stages\Cleanup StageCategories"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{96c6b02a-6543-47a9-a8b3-1846e1446684}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup StageCategories"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE StageCategories" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Stages\Cleanup StageCustomers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{dff8f182-c4c7-48b5-a773-a11718ba39e0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup StageCustomers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE StageCustomers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Stages\Cleanup StageEmployees"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{159d054e-dd26-49a2-a993-1e35a1eb8193}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup StageEmployees"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="6">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE StageEmployees" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Stages\Cleanup StageOrders"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{7d932f1b-2f82-4e06-8271-036d8c5c16af}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup StageOrders"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="7">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE StageOrders" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Stages\Cleanup StageProducts"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{a3ce09ff-77f1-4a4d-8331-9b073068baa0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup StageProducts"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE StageProducts" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Stages\Cleanup StageShippers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{c15d54dc-e51c-452f-a978-88a94ce7546d}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup StageShippers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE StageShippers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Stages\Cleanup StageSuppliers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{47d36fb4-71dc-4638-b13d-adf6892ea01d}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup StageSuppliers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="5">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE StageSuppliers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Truncate Stages\StageCities Cleanup"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{32cb891a-5fad-495f-858c-1b2bf7d904df}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="StageCities Cleanup"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{178F8B3B-2B65-46E6-91BC-51C0F0CFDA16}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE StageCities" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C8154534-C6E4-40AE-A519-DB885F7FD6B2}"
+      DTS:From="Package\Truncate Mirrors"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Truncate Stages" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{F62B9ECC-76EF-420E-A818-A0F7B1F36BB5}"
+      DTS:From="Package\Truncate Stages"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Truncate Dim and Fact" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A6C81DBF-35E2-407B-93F2-83530EF90823}"
+      DTS:From="Package\Truncate Dim and Fact"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Truncate History" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Truncate Mirrors\Truncate MirrorCategories"
+          TopLeft="41,26" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Truncate Mirrors\Truncate MirrorEmployees"
+          TopLeft="269.5,28" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Truncate Mirrors\Truncate MirrorOrders"
+          TopLeft="270,92" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Truncate Mirrors\Truncate MirrorCustomers"
+          TopLeft="44.5,90" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Truncate Mirrors\Truncate MirrorOrderDetails"
+          TopLeft="505,24" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\Truncate Mirrors\Truncate MirrorProducts"
+          TopLeft="517,86" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Truncate Mirrors\Truncate MirrorShippers"
+          TopLeft="746,22" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Truncate Mirrors\Truncate MirrorSuppliers"
+          TopLeft="749,84" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="950,189"
+          Size="950,232"
+          Id="Package\Truncate Mirrors"
+          TopLeft="65.3333333333334,42.5555555555555" />
+        <AnnotationLayout
+          Text="This is for testing purposes only!"
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="200,40"
+          Id="45aa2b03-33d1-4f81-949d-a841d679de76"
+          TopLeft="436.444444444444,9.00000000000001" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Truncate Stages\StageCities Cleanup"
+          TopLeft="32.0909090909091,5.5454545454545" />
+        <NodeLayout
+          Size="196,42"
+          Id="Package\Truncate Stages\Cleanup StageCategories"
+          TopLeft="32.0909090909091,82.090909090909" />
+        <NodeLayout
+          Size="196,42"
+          Id="Package\Truncate Stages\Cleanup StageCustomers"
+          TopLeft="242.090909090909,5.90909090909088" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Truncate Stages\Cleanup StageEmployees"
+          TopLeft="250.272727272727,76.8181818181818" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Truncate Stages\Cleanup StageOrders"
+          TopLeft="477.545454545455,5.90909090909082" />
+        <NodeLayout
+          Size="187,42"
+          Id="Package\Truncate Stages\Cleanup StageProducts"
+          TopLeft="483,75.9090909090909" />
+        <NodeLayout
+          Size="187,42"
+          Id="Package\Truncate Stages\Cleanup StageShippers"
+          TopLeft="700.272727272727,4.99999999999989" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Truncate Stages\Cleanup StageSuppliers"
+          TopLeft="704.818181818182,69.5454545454546" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="957,130"
+          Size="957,173"
+          Id="Package\Truncate Stages"
+          TopLeft="69.0909090909091,338.681818181818" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="543.962121212121,274.555555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,64.1262626262626"
+              Start="0,0"
+              End="0,56.6262626262626">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,56.6262626262626" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Truncate Dim and Fact\DimCities Cleanup"
+          TopLeft="30,23.2727272727274" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Truncate Dim and Fact\Cleanup DimCategories"
+          TopLeft="30,99.8181818181819" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Truncate Dim and Fact\Cleanup DimCustomers"
+          TopLeft="240,23.6363636363637" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Truncate Dim and Fact\Cleanup DimEmployees"
+          TopLeft="248.181818181818,94.5454545454546" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Truncate Dim and Fact\Cleanup FactOrders"
+          TopLeft="475.454545454546,23.6363636363637" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Truncate Dim and Fact\Cleanup DimProducts"
+          TopLeft="480.909090909091,93.6363636363637" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Truncate Dim and Fact\Cleanup DimShippers"
+          TopLeft="698.181818181818,22.7272727272727" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Truncate Dim and Fact\Cleanup DimSuppliers"
+          TopLeft="702.727272727273,87.2727272727275" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="946,197"
+          Size="946,240"
+          Id="Package\Truncate Dim and Fact"
+          TopLeft="76.3636363636364,572.727272727273" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="548.477272727273,511.681818181818">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.0454545454546"
+              Start="0,0"
+              End="0,53.5454545454546">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.5454545454546" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Truncate History\Cleanup Hist_FactOrders"
+          TopLeft="24.5454545454546,3.68181818181813" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="225,102"
+          Size="225,146"
+          Id="Package\Truncate History"
+          TopLeft="439.090909090909,855.454545454545" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="550.477272727273,812.727272727273">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42.7272727272724"
+              Start="0,0"
+              End="0,35.2272727272724">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.2272727272724" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

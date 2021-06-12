@@ -1,0 +1,531 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/17/2021 4:19:28 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6P5Q8A8"
+  DTS:CreatorName="DESKTOP-6P5Q8A8\Peter-New"
+  DTS:DTSID="{E9C3D500-133B-4D8A-9F07-95CB510572C8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="StageShippers"
+  DTS:PackageType="5"
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{6AF9B40D-00B8-4A79-828F-A8A36492E8A5}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{AA42E89B-E992-48F7-9490-28ACB10D22B0}"
+      DTS:ObjectName="LocalHost.Northwind_DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind_DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup StageShippers"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8601BFB2-4AFD-4F0B-A1F0-03085B9943BB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup StageShippers"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{AA42E89B-E992-48F7-9490-28ACB10D22B0}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE StageShippers" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\StageShippers"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{77D3E1C4-6B08-43E3-8B89-9F12648881F0}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="StageShippers">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\StageShippers\Filling StageShippers"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{B49B2C87-32AF-4DDB-A72D-A6580633DB2A}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Filling StageShippers"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\StageShippers\Filling StageShippers\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[StageShippers]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          externalMetadataColumnId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[__$operation]"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]" />
+                        <inputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ShipperID]"
+                          cachedDataType="i4"
+                          cachedName="ShipperID"
+                          externalMetadataColumnId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ShipperID]"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]" />
+                        <inputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          externalMetadataColumnId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompanyName]"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]" />
+                        <inputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          externalMetadataColumnId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SynthKey]"
+                          dataType="i4"
+                          name="SynthKey" />
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ShipperID]"
+                          dataType="i4"
+                          name="ShipperID" />
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\StageShippers\Filling StageShippers\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[MirrorShippers]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          name="__$operation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ShipperID]"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]"
+                          name="ShipperID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                          length="40"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                          name="CompanyName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Phone]"
+                          length="24"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]"
+                          name="Phone"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ShipperID]"
+                          dataType="i4"
+                          name="ShipperID" />
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
+                        <externalMetadataColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ShipperID]"
+                          dataType="i4"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ShipperID]"
+                          name="ShipperID" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\StageShippers\Filling StageShippers.Paths[OLE DB Source Output]"
+                  endId="Package\StageShippers\Filling StageShippers\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\StageShippers\Filling StageShippers\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{230719D6-CE90-475E-8D1C-29DBD79DED75}"
+      DTS:From="Package\Cleanup StageShippers"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\StageShippers" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="187,42"
+          Id="Package\Cleanup StageShippers"
+          TopLeft="408,60" />
+        <NodeLayout
+          Size="176,42"
+          Id="Package\StageShippers\Filling StageShippers"
+          TopLeft="21,11" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="222,111"
+          Size="222,154"
+          Id="Package\StageShippers"
+          TopLeft="393,155" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="502.75,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53"
+              Start="0,0"
+              End="0,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\StageShippers\Filling StageShippers">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\StageShippers\Filling StageShippers\OLE DB Source"
+          TopLeft="494,39" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\StageShippers\Filling StageShippers\OLE DB Destination"
+          TopLeft="488,162" />
+        <EdgeLayout
+          Id="Package\StageShippers\Filling StageShippers.Paths[OLE DB Source Output]"
+          TopLeft="571.25,81">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,81"
+              Start="0,0"
+              End="0,73.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,73.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\StageShippers\Filling StageShippers\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\StageShippers\Filling StageShippers\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

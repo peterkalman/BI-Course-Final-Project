@@ -1,0 +1,2652 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/17/2021 4:19:28 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6P5Q8A8"
+  DTS:CreatorName="DESKTOP-6P5Q8A8\Peter-New"
+  DTS:DTSID="{8AE67A2A-5C23-412F-80BD-EB0620354E9D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="5_DimSuppliers"
+  DTS:PackageType="5"
+  DTS:VersionBuild="37"
+  DTS:VersionGUID="{E557CCC4-B852-4C67-980A-59EF1F2F6742}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2D6C9CFE-A6D1-4EFF-A21A-408E8AE5D3CE}"
+      DTS:ObjectName="LocalHost.Northwind_DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind_DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DimSuppliers"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{13A7BDFC-D62C-436C-87FE-098EBABB2976}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DimSuppliers">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\DimSuppliers\Managing DimSuppliers"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{D128E6BB-6E65-465C-A3B6-D65B1A81501C}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Managing DimSuppliers"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+                  name="Conditional Split by operation"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Inputs[Conditional Split Input].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Delete]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Delete"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Insert]"
+                      description="Output 2 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Insert"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 2</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 2</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">1</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Update New]"
+                      description="Output 4 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Update New"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 4</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 4</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">2</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Error Records]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Error Records"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate"
+                  componentClassID="Microsoft.OLEDBCommand"
+                  contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+                  name="Delete - Set EndDate"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE DimSuppliers
+SET EndDate = GETDATE()
+WHERE SupplierID = ? AND
+	EndDate is NULL</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Inputs[OLE DB Command Input]"
+                      errorOrTruncationOperation="Command Execution"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Command Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Inputs[OLE DB Command Input].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[SupplierID]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                          dataType="i4"
+                          name="Param_0">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Outputs[OLE DB Command Output]"
+                      exclusionGroup="1"
+                      name="OLE DB Command Output"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Inputs[OLE DB Command Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Outputs[OLE DB Command Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Command Error Output"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Inputs[OLE DB Command Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows"
+                  componentClassID="Microsoft.Multicast"
+                  contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+                  name="Duplicate Rows">
+                  <inputs>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Inputs[Multicast Input 1]"
+                      name="Multicast Input 1">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Outputs[Multicast Output 1]"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 1"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Outputs[Multicast Output 2]"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 2"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Outputs[Multicast Output 3]"
+                      dangling="true"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 3"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Insert - Set BeginDate"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          name="BeginDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[GETDATE]()</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">GETDATE()</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          dataType="date"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          name="EndDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">NULL(DT_DATE)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">NULL(DT_DATE)</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Insert into DimSuppliers"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[DimSuppliers]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[SupplierID]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[SupplierID]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[CompanyName]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CompanyName]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[ContactName]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactName"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[ContactName]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactName]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[ContactTitle]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactTitle"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[ContactTitle]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactTitle]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[Address]"
+                          cachedDataType="wstr"
+                          cachedLength="60"
+                          cachedName="Address"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Address]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Address]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[CityKey]"
+                          cachedDataType="i4"
+                          cachedName="CityKey"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[CityKey]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CityKey]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[Region]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Region"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Region]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Region]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[PostalCode]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="PostalCode"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[PostalCode]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[PostalCode]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Country"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Country]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Phone]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[Fax]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Fax"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Fax]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Fax]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[HomePage]"
+                          cachedDataType="nText"
+                          cachedName="HomePage"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[HomePage]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[HomePage]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[BeginDate]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[BeginDate]" />
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[EndDate]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[SynthKey]"
+                          dataType="i4"
+                          name="SynthKey" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          name="BeginDate" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                          dataType="dbTimeStamp"
+                          name="EndDate" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[SupplierID]"
+                          dataType="i4"
+                          name="SupplierID" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactName" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactTitle" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Address]"
+                          dataType="wstr"
+                          length="60"
+                          name="Address" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[CityKey]"
+                          dataType="i4"
+                          name="CityKey" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Region]"
+                          dataType="wstr"
+                          length="15"
+                          name="Region" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[PostalCode]"
+                          dataType="wstr"
+                          length="10"
+                          name="PostalCode" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          name="Fax" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input].ExternalColumns[HomePage]"
+                          dataType="nText"
+                          name="HomePage" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[StageSuppliers]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          name="__$operation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                          name="SupplierID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                          length="40"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                          name="CompanyName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ContactName]"
+                          length="30"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactName]"
+                          name="ContactName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactTitle]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ContactTitle]"
+                          length="30"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactTitle]"
+                          name="ContactTitle"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Address]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Address]"
+                          length="60"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Address]"
+                          name="Address"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CityKey]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CityKey]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CityKey]"
+                          name="CityKey"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Region]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Region]"
+                          length="15"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Region]"
+                          name="Region"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[PostalCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PostalCode]"
+                          length="10"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[PostalCode]"
+                          name="PostalCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Country]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Country]"
+                          length="15"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Country]"
+                          name="Country"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Phone]"
+                          length="24"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]"
+                          name="Phone"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fax]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Fax]"
+                          length="24"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fax]"
+                          name="Fax"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[HomePage]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HomePage]"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[HomePage]"
+                          name="HomePage"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                          dataType="i4"
+                          name="SupplierID" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactName" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactTitle" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Address]"
+                          dataType="wstr"
+                          length="60"
+                          name="Address" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CityKey]"
+                          dataType="i4"
+                          name="CityKey" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Region]"
+                          dataType="wstr"
+                          length="15"
+                          name="Region" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PostalCode]"
+                          dataType="wstr"
+                          length="10"
+                          name="PostalCode" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          name="Fax" />
+                        <externalMetadataColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HomePage]"
+                          dataType="nText"
+                          name="HomePage" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                          name="SupplierID" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ContactName]"
+                          name="ContactName" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ContactTitle]"
+                          name="ContactTitle" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Address]"
+                          dataType="wstr"
+                          length="60"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Address]"
+                          name="Address" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CityKey]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CityKey]"
+                          name="CityKey" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Region]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Region]"
+                          name="Region" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PostalCode]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PostalCode]"
+                          name="PostalCode" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Country]"
+                          name="Country" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Fax]"
+                          name="Fax" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HomePage]"
+                          dataType="nText"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HomePage]"
+                          name="HomePage" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\Union All"
+                  componentClassID="Microsoft.UnionAll"
+                  contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+                  name="Union All"
+                  version="1">
+                  <inputs>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3]"
+                      hasSideEffects="true"
+                      name="Union All Input 3">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[SupplierID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CompanyName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[ContactName]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactName"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[ContactTitle]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactTitle"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactTitle]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactTitle]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[Address]"
+                          cachedDataType="wstr"
+                          cachedLength="60"
+                          cachedName="Address"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Address]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Address]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[CityKey]"
+                          cachedDataType="i4"
+                          cachedName="CityKey"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CityKey]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CityKey]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[Region]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Region"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Region]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Region]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[PostalCode]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="PostalCode"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[PostalCode]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[PostalCode]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Country"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Country]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Country]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Phone]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[Fax]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Fax"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fax]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Fax]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[HomePage]"
+                          cachedDataType="nText"
+                          cachedName="HomePage"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[HomePage]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[HomePage]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[BeginDate]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1]"
+                      hasSideEffects="true"
+                      name="Union All Input 1">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[SupplierID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CompanyName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[ContactName]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactName"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[ContactTitle]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactTitle"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactTitle]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactTitle]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[Address]"
+                          cachedDataType="wstr"
+                          cachedLength="60"
+                          cachedName="Address"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Address]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Address]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[CityKey]"
+                          cachedDataType="i4"
+                          cachedName="CityKey"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CityKey]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CityKey]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[Region]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Region"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Region]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Region]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[PostalCode]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="PostalCode"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[PostalCode]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[PostalCode]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Country"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Country]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Country]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Phone]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[Fax]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Fax"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fax]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Fax]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[HomePage]"
+                          cachedDataType="nText"
+                          cachedName="HomePage"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[HomePage]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[HomePage]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[BeginDate]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 2]"
+                      dangling="true"
+                      hasSideEffects="true"
+                      name="Union All Input 2">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1]"
+                      name="Union All Output 1">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[SupplierID]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[SupplierID]"
+                          name="SupplierID" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactName]"
+                          name="ContactName" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[ContactTitle]"
+                          name="ContactTitle" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Address]"
+                          dataType="wstr"
+                          length="60"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Address]"
+                          name="Address" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CityKey]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[CityKey]"
+                          name="CityKey" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Region]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Region]"
+                          name="Region" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[PostalCode]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[PostalCode]"
+                          name="PostalCode" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Country]"
+                          name="Country" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[Fax]"
+                          name="Fax" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[HomePage]"
+                          dataType="nText"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[HomePage]"
+                          name="HomePage" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[BeginDate]"
+                          name="BeginDate" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[EndDate]"
+                          dataType="date"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1].Columns[EndDate]"
+                          name="EndDate" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete"
+                  componentClassID="Microsoft.UnionAll"
+                  contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+                  name="Union All Rows To Delete"
+                  version="1">
+                  <inputs>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1]"
+                      name="Union All Input 1">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[SupplierID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[CompanyName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[ContactName]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactName"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[ContactName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[ContactTitle]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactTitle"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactTitle]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[ContactTitle]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[Address]"
+                          cachedDataType="wstr"
+                          cachedLength="60"
+                          cachedName="Address"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Address]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Address]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[CityKey]"
+                          cachedDataType="i4"
+                          cachedName="CityKey"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CityKey]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[CityKey]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[Region]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Region"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Region]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Region]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[PostalCode]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="PostalCode"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[PostalCode]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[PostalCode]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Country"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Country]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Country]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Phone]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[Fax]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Fax"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fax]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Fax]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1].Columns[HomePage]"
+                          cachedDataType="nText"
+                          cachedName="HomePage"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[HomePage]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[HomePage]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2]"
+                      hasSideEffects="true"
+                      name="Union All Input 2">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[SupplierID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[CompanyName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[ContactName]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactName"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[ContactName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[ContactTitle]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactTitle"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactTitle]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[ContactTitle]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[Address]"
+                          cachedDataType="wstr"
+                          cachedLength="60"
+                          cachedName="Address"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Address]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Address]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[CityKey]"
+                          cachedDataType="i4"
+                          cachedName="CityKey"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CityKey]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[CityKey]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[Region]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Region"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Region]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Region]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[PostalCode]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="PostalCode"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[PostalCode]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[PostalCode]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Country"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Country]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Country]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Phone]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[Fax]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Fax"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fax]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Fax]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2].Columns[HomePage]"
+                          cachedDataType="nText"
+                          cachedName="HomePage"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output].Columns[HomePage]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[HomePage]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 3]"
+                      dangling="true"
+                      hasSideEffects="true"
+                      name="Union All Input 3">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1]"
+                      name="Union All Output 1">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[SupplierID]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[SupplierID]"
+                          name="SupplierID" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[ContactName]"
+                          name="ContactName" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[ContactTitle]"
+                          name="ContactTitle" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Address]"
+                          dataType="wstr"
+                          length="60"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Address]"
+                          name="Address" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[CityKey]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[CityKey]"
+                          name="CityKey" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Region]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Region]"
+                          name="Region" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[PostalCode]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[PostalCode]"
+                          name="PostalCode" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Country]"
+                          name="Country" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[Fax]"
+                          name="Fax" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[HomePage]"
+                          dataType="nText"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1].Columns[HomePage]"
+                          name="HomePage" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="UpdateNew - Set BeginDate"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          name="BeginDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[GETDATE]()</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">GETDATE()</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          dataType="date"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          name="EndDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">NULL(DT_DATE)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">NULL(DT_DATE)</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Delete]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 1]"
+                  name="Delete"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Delete]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Derived Column Output]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 3]"
+                  name="Derived Column Output"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Derived Column Output1]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Union All.Inputs[Union All Input 1]"
+                  name="Derived Column Output"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Insert]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate.Inputs[Derived Column Input]"
+                  name="Insert"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Insert]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Multicast Output 1]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate.Inputs[Derived Column Input]"
+                  name="Multicast Output 1"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Outputs[Multicast Output 1]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Multicast Output 2]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Inputs[Union All Input 2]"
+                  name="Multicast Output 2"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Outputs[Multicast Output 2]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[OLE DB Source Output]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source.Outputs[OLE DB Source Output]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Union All Output 1]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers.Inputs[OLE DB Destination Input]"
+                  name="Union All Output 1"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\Union All.Outputs[Union All Output 1]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Union All Output 11]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate.Inputs[OLE DB Command Input]"
+                  name="Union All Output 1"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete.Outputs[Union All Output 1]" />
+                <path
+                  refId="Package\DimSuppliers\Managing DimSuppliers.Paths[Update New]"
+                  endId="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows.Inputs[Multicast Input 1]"
+                  name="Update New"
+                  startId="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation.Outputs[Update New]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="189,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers"
+          TopLeft="21,11" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="222,111"
+          Size="222,154"
+          Id="Package\DimSuppliers"
+          TopLeft="392,105" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DimSuppliers\Managing DimSuppliers">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="193,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers"
+          TopLeft="553.333333333333,645" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\Union All"
+          TopLeft="592.5,556.666666666667" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source"
+          TopLeft="520,14" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\UpdateNew - Set BeginDate"
+          TopLeft="723,406" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\Delete - Set EndDate"
+          TopLeft="960.666666666667,291.333333333333" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\Conditional Split by operation"
+          TopLeft="487,135" />
+        <NodeLayout
+          Size="184,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\Insert - Set BeginDate"
+          TopLeft="92,237" />
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Derived Column Output1]"
+          TopLeft="184,279">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="440.75,277.666666666667"
+              Start="0,0"
+              End="440.75,270.166666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,177.119496855346" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,177.119496855346"
+                    Point2="0,181.119496855346"
+                    Point3="4,181.119496855346" />
+                  <mssgle:LineSegment
+                    End="436.75,181.119496855346" />
+                  <mssgle:CubicBezierSegment
+                    Point1="436.75,181.119496855346"
+                    Point2="440.75,181.119496855346"
+                    Point3="440.75,185.119496855346" />
+                  <mssgle:LineSegment
+                    End="440.75,270.166666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Derived Column Output]"
+          TopLeft="828,448">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-146.75,108.666666666667"
+              Start="0,0"
+              End="-146.75,101.166666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,66.8823000898473" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,66.8823000898473"
+                    Point2="0,70.8823000898473"
+                    Point3="-4,70.8823000898473" />
+                  <mssgle:LineSegment
+                    End="-142.75,70.8823000898473" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-142.75,70.8823000898473"
+                    Point2="-146.75,70.8823000898473"
+                    Point3="-146.75,74.8823000898473" />
+                  <mssgle:LineSegment
+                    End="-146.75,101.166666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Union All Output 1]"
+          TopLeft="651.416666666667,598.666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.3333333333331"
+              Start="0,0"
+              End="0,38.8333333333331">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.8333333333331" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[OLE DB Source Output]"
+          TopLeft="595.25,56">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,79"
+              Start="0,0"
+              End="0,71.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,71.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Insert]"
+          TopLeft="532.8,177">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-348.8,60"
+              Start="0,0"
+              End="-348.8,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.8094620868438" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.8094620868438"
+                    Point2="0,17.8094620868438"
+                    Point3="-4,17.8094620868438" />
+                  <mssgle:LineSegment
+                    End="-344.8,17.8094620868438" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-344.8,17.8094620868438"
+                    Point2="-348.8,17.8094620868438"
+                    Point3="-348.8,21.8094620868438" />
+                  <mssgle:LineSegment
+                    End="-348.8,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-188.15298828125,22.8094620868438,27.5059765625,9.40234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Operation indexing:&#xA;1-Delete&#xA;2-Insert&#xA;3-UpdateOld(Updates before the newest update)&#xA;4-UpdateNew"
+          ParentId="Package\DimSuppliers\Managing DimSuppliers"
+          FontInfo="{assembly:Null}"
+          Size="289,104"
+          Id="20673804-9769-4772-81a8-e9ef9f5da1f7"
+          TopLeft="769,9" />
+        <AnnotationLayout
+          Text="Insert Operation:&#xA;BeginDate=Today()&#xA;EndDate=Null()"
+          ParentId="Package\DimSuppliers\Managing DimSuppliers"
+          FontInfo="{assembly:Null}"
+          Size="130,72"
+          Id="0294fca1-f90c-4518-977f-e22865b24bd2"
+          TopLeft="186,125" />
+        <AnnotationLayout
+          Text="Delete Operation&#xA;EndDate=Today()&#xA;WHERE BUISNESSKEY MATCH and ENDDATE=NULL"
+          ParentId="Package\DimSuppliers\Managing DimSuppliers"
+          FontInfo="{assembly:Null}"
+          Size="300,72"
+          Id="d528481e-c64f-48ab-a9f3-5bda15eef3e2"
+          TopLeft="807,137" />
+        <AnnotationLayout
+          Text="UpdateNew Operation:&#xA;OldEndDate=Today()&#xA;WHERE BUISNESSKEY MATCH and ENDDATE=NULL&#xA;BeginDate=Today()&#xA;EndDate=Null()"
+          ParentId="Package\DimSuppliers\Managing DimSuppliers"
+          FontInfo="{assembly:Null}"
+          Size="300,104"
+          Id="80923a92-5985-48f2-9f87-cc903a2426e1"
+          TopLeft="558,243.666666666667" />
+        <NodeLayout
+          Size="198,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\Union All Rows To Delete"
+          TopLeft="848,191" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\DimSuppliers\Managing DimSuppliers\Duplicate Rows"
+          TopLeft="768,302" />
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Update New]"
+          TopLeft="630.333333333333,177">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="189.333333333333,125"
+              Start="0,0"
+              End="189.333333333333,117.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,58.2537533952184" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,58.2537533952184"
+                    Point2="0,62.2537533952184"
+                    Point3="4,62.2537533952184" />
+                  <mssgle:LineSegment
+                    End="185.333333333333,62.2537533952184" />
+                  <mssgle:CubicBezierSegment
+                    Point1="185.333333333333,62.2537533952184"
+                    Point2="189.333333333333,62.2537533952184"
+                    Point3="189.333333333333,66.2537533952184" />
+                  <mssgle:LineSegment
+                    End="189.333333333333,117.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="67.0886783854167,67.2537533952184,55.1559765625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Multicast Output 1]"
+          TopLeft="843.5,344">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-15.5,62"
+              Start="0,0"
+              End="-15.5,54.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27"
+                    Point2="0,31"
+                    Point3="-4,31" />
+                  <mssgle:LineSegment
+                    End="-11.5,31" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-11.5,31"
+                    Point2="-15.5,31"
+                    Point3="-15.5,35" />
+                  <mssgle:LineSegment
+                    End="-15.5,54.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Delete]"
+          TopLeft="704,156">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="144,56"
+              Start="0,0"
+              End="136.5,56">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="68,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="68,0"
+                    Point2="72,0"
+                    Point3="72,4" />
+                  <mssgle:LineSegment
+                    End="72,52" />
+                  <mssgle:CubicBezierSegment
+                    Point1="72,52"
+                    Point2="72,56"
+                    Point3="76,56" />
+                  <mssgle:LineSegment
+                    End="136.5,56" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="57.40365234375,-15.724609375,29.1926953125,9.724609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Union All Output 11]"
+          TopLeft="978.666666666667,233">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="71.0000000000003,58.333333333333"
+              Start="0,0"
+              End="71.0000000000003,50.833333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.6138944555777" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.6138944555777"
+                    Point2="0,23.6138944555777"
+                    Point3="4,23.6138944555777" />
+                  <mssgle:LineSegment
+                    End="67.0000000000003,23.6138944555777" />
+                  <mssgle:CubicBezierSegment
+                    Point1="67.0000000000003,23.6138944555777"
+                    Point2="71.0000000000003,23.6138944555777"
+                    Point3="71.0000000000003,27.6138944555777" />
+                  <mssgle:LineSegment
+                    End="71.0000000000003,50.833333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimSuppliers\Managing DimSuppliers.Paths[Multicast Output 2]"
+          TopLeft="867.333333333333,302">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="79.6666666666666,-69"
+              Start="0,0"
+              End="79.6666666666666,-61.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-24.0340760157274" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-24.0340760157274"
+                    Point2="0,-28.0340760157274"
+                    Point3="4,-28.0340760157274" />
+                  <mssgle:LineSegment
+                    End="75.6666666666666,-28.0340760157274" />
+                  <mssgle:CubicBezierSegment
+                    Point1="75.6666666666666,-28.0340760157274"
+                    Point2="79.6666666666666,-28.0340760157274"
+                    Point3="79.6666666666666,-32.0340760157274" />
+                  <mssgle:LineSegment
+                    End="79.6666666666666,-61.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimSuppliers\Managing DimSuppliers\Insert into DimSuppliers">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimSuppliers\Managing DimSuppliers\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

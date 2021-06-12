@@ -1,0 +1,411 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/13/2021 3:12:38 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6P5Q8A8"
+  DTS:CreatorName="DESKTOP-6P5Q8A8\Peter-New"
+  DTS:DTSID="{A2F7CB53-9329-43F8-9573-E56FCEA8A2E8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="1_CDC_Mirrors"
+  DTS:PackageType="5"
+  DTS:VersionBuild="41"
+  DTS:VersionGUID="{50841AEE-990E-4C8B-B66B-D062F92A1149}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{786C30E5-773A-41FB-A4DF-A39D18F9D36D}"
+      DTS:ObjectName="LocalHost.Northwind">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind;Integrated Security=True;Application Name=SSIS-1_MirrorCategories-{786C30E5-773A-41FB-A4DF-A39D18F9D36D}LocalHost.Northwind;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A88900F2-A5AE-461E-A44B-AFF78253C439}"
+      DTS:ObjectName="LocalHost.Northwind_DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind_DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C8A2F5E0-EA7E-48D5-A393-277362D0448A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CDC_State">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\CDC - Get processing range"
+      DTS:CreationName="Attunity.CdcControlTask"
+      DTS:Description="CDC Control Task"
+      DTS:DTSID="{AE8B948D-7B09-4765-876A-8904BE8FF6F9}"
+      DTS:ExecutableType="Attunity.CdcControlTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="CDC - Get processing range"
+      DTS:TaskContact="Attunity Ltd.; All Rights Reserved; http://www.attunity.com;"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <CDCControlTask
+          Connection="LocalHost.Northwind"
+          TaskOperation="GetProcessingRange"
+          OperationParameter=""
+          StateConnection="LocalHost.Northwind"
+          StateVariable="User::CDC_State"
+          AutomaticStatePersistence="True"
+          StateName="CDC_State"
+          StateTable="[dbo].[cdc_states]"
+          CommandTimeout="30"
+          ChangeDetectionRetryInterval="10"
+          ChangeDetectionTimeout="60" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\CDC - Mark processing range"
+      DTS:CreationName="Attunity.CdcControlTask"
+      DTS:Description="CDC Control Task"
+      DTS:DTSID="{9BBC0574-DDDA-4866-8015-3344FFE738D7}"
+      DTS:ExecutableType="Attunity.CdcControlTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="CDC - Mark processing range"
+      DTS:TaskContact="Attunity Ltd.; All Rights Reserved; http://www.attunity.com;"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <CDCControlTask
+          Connection="LocalHost.Northwind"
+          TaskOperation="MarkProcessedRange"
+          OperationParameter=""
+          StateConnection="LocalHost.Northwind"
+          StateVariable="User::CDC_State"
+          AutomaticStatePersistence="True"
+          StateName="CDC_State"
+          StateTable="[dbo].[cdc_states]"
+          CommandTimeout="30"
+          ChangeDetectionRetryInterval="10"
+          ChangeDetectionTimeout="60" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Mirrors Creation"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{3A7BC697-4FD0-42D9-BA1B-E88620F3125E}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Mirrors Creation">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Mirrors Creation\MirrorCategories"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{3C942254-4FCA-46DB-AD8C-C29209EF7DA2}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MirrorCategories"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>1_MirrorCategories.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CDC_State</ParameterName>
+                <BindedVariableOrParameterName>User::CDC_State</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Mirrors Creation\MirrorCustomers"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{2793320e-fb23-43e0-ad7f-0943ac7579dc}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MirrorCustomers"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>1_MirrorCustomers.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CDC_State</ParameterName>
+                <BindedVariableOrParameterName>User::CDC_State</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Mirrors Creation\MirrorEmployees"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{c97077fb-f2f0-4971-be94-263281967535}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MirrorEmployees"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>1_MirrorEmployees.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CDC_State</ParameterName>
+                <BindedVariableOrParameterName>User::CDC_State</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Mirrors Creation\MirrorOrderDetails"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{99ee8559-464d-47ec-96b2-d65ff8194209}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MirrorOrderDetails"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>1_MirrorOrdersDetails.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CDC_State</ParameterName>
+                <BindedVariableOrParameterName>User::CDC_State</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Mirrors Creation\MirrorOrders"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{3f130e17-0bc6-416b-aa58-e20fc4a20d84}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MirrorOrders"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>1_MirrorOrders.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CDC_State</ParameterName>
+                <BindedVariableOrParameterName>User::CDC_State</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Mirrors Creation\MirrorProducts"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{6f044dfc-6f09-4c2e-b5a6-3c4e39f41946}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MirrorProducts"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>1_MirrorProducts.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CDC_State</ParameterName>
+                <BindedVariableOrParameterName>User::CDC_State</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Mirrors Creation\MirrorShippers"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{d79117e2-137a-4c64-9344-9f44dab85508}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MirrorShippers"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>1_MirrorShippers.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CDC_State</ParameterName>
+                <BindedVariableOrParameterName>User::CDC_State</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Mirrors Creation\MirrorSuppliers"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{d154c497-acb0-4b48-ae89-431694d58aac}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MirrorSuppliers"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>1_MirrorSuppliers.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CDC_State</ParameterName>
+                <BindedVariableOrParameterName>User::CDC_State</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{83AEF43B-44B5-4583-AC4C-8040F7A2E4E1}"
+      DTS:From="Package\CDC - Get processing range"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Mirrors Creation" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D111DBD8-2427-407F-8DA8-C0A101DB6126}"
+      DTS:From="Package\Mirrors Creation"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\CDC - Mark processing range" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Mirrors Creation\MirrorCategories"
+          TopLeft="16,17" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Mirrors Creation\MirrorCustomers"
+          TopLeft="20,81" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Mirrors Creation\MirrorEmployees"
+          TopLeft="19,145" />
+        <NodeLayout
+          Size="138,42"
+          Id="Package\Mirrors Creation\MirrorOrders"
+          TopLeft="12,205" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Mirrors Creation\MirrorOrderDetails"
+          TopLeft="208,24" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Mirrors Creation\MirrorProducts"
+          TopLeft="213,80" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Mirrors Creation\MirrorShippers"
+          TopLeft="211,140" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Mirrors Creation\MirrorSuppliers"
+          TopLeft="206,201" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="379,302"
+          Size="379,345"
+          Id="Package\Mirrors Creation"
+          TopLeft="284,153" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\CDC - Mark processing range"
+          TopLeft="364,578" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="472.75,498">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,80"
+              Start="0,0"
+              End="0,72.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="209,42"
+          Id="Package\CDC - Get processing range"
+          TopLeft="362,61" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="467.75,103">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

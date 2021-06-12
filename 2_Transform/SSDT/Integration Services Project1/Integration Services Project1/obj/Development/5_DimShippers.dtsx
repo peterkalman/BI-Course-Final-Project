@@ -1,0 +1,1752 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/17/2021 4:19:28 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6P5Q8A8"
+  DTS:CreatorName="DESKTOP-6P5Q8A8\Peter-New"
+  DTS:DTSID="{94A9B3DE-466C-4E34-A40C-10E40B17BABB}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="5_DimShippers"
+  DTS:PackageType="5"
+  DTS:VersionBuild="41"
+  DTS:VersionGUID="{42E17ECC-8CC5-49A7-9549-E6160BCC5572}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{72B8D769-911B-47F5-8C75-EE6FB6D41FE9}"
+      DTS:ObjectName="LocalHost.Northwind_DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind_DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DimShippers"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{9B7271EB-66A9-4FA6-A412-A65191339356}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DimShippers">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\DimShippers\Managing DimShippers"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{B5190C6A-7954-4010-97AF-4BEAFF1F3050}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Managing DimShippers"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+                  name="Conditional Split by operation"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Inputs[Conditional Split Input].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Delete]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Delete"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Insert]"
+                      description="Output 2 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Insert"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 2</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 2</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">1</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Update New]"
+                      description="Output 4 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Update New"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 4</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 4</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">2</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Error Records]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Error Records"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate"
+                  componentClassID="Microsoft.OLEDBCommand"
+                  contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+                  name="Delete - Set EndDate"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE DimShippers
+SET EndDate = GETDATE()
+WHERE ShipperID = ? AND
+	EndDate is NULL</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Inputs[OLE DB Command Input]"
+                      errorOrTruncationOperation="Command Execution"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Command Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Inputs[OLE DB Command Input].Columns[ShipperID]"
+                          cachedDataType="i4"
+                          cachedName="ShipperID"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ShipperID]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                          dataType="i4"
+                          name="Param_0">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Outputs[OLE DB Command Output]"
+                      exclusionGroup="1"
+                      name="OLE DB Command Output"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Inputs[OLE DB Command Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Outputs[OLE DB Command Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Command Error Output"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Inputs[OLE DB Command Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\Duplicate Rows"
+                  componentClassID="Microsoft.Multicast"
+                  contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+                  name="Duplicate Rows">
+                  <inputs>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Inputs[Multicast Input 1]"
+                      name="Multicast Input 1">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Outputs[Multicast Output 1]"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 1"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Outputs[Multicast Output 3]"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 3"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Outputs[Multicast Output 2]"
+                      dangling="true"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 2"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Insert - Set BeginDate"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          name="BeginDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[GETDATE]()</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">GETDATE()</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          dataType="date"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          name="EndDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">NULL(DT_DATE)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">NULL(DT_DATE)</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Insert into DimShippers"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[DimShippers]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[CompanyName]"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[CompanyName]" />
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[Phone]" />
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[BeginDate]"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[BeginDate]" />
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[EndDate]" />
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].Columns[ShipperID]"
+                          cachedDataType="i4"
+                          cachedName="ShipperID"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[ShipperID]"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[ShipperID]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[SynthKey]"
+                          dataType="i4"
+                          name="SynthKey" />
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          name="BeginDate" />
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                          dataType="dbTimeStamp"
+                          name="EndDate" />
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input].ExternalColumns[ShipperID]"
+                          dataType="i4"
+                          name="ShipperID" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[StageShippers]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          name="__$operation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                          length="40"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                          name="CompanyName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Phone]"
+                          length="24"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]"
+                          name="Phone"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ShipperID]"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]"
+                          name="ShipperID"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                        <externalMetadataColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ShipperID]"
+                          dataType="i4"
+                          name="ShipperID" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ShipperID]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ShipperID]"
+                          name="ShipperID" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\Union All"
+                  componentClassID="Microsoft.UnionAll"
+                  contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+                  name="Union All"
+                  version="1">
+                  <inputs>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 1]"
+                      name="Union All Input 1">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 1].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 1].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[CompanyName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 1].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[Phone]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 1].Columns[ShipperID]"
+                          cachedDataType="i4"
+                          cachedName="ShipperID"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[ShipperID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 1].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          lineageId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[BeginDate]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 1].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          lineageId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 3]"
+                      hasSideEffects="true"
+                      name="Union All Input 3">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 3].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 3].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[CompanyName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 3].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[Phone]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 3].Columns[ShipperID]"
+                          cachedDataType="i4"
+                          cachedName="ShipperID"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[ShipperID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 3].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          lineageId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[BeginDate]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 3].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          lineageId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 4]"
+                      dangling="true"
+                      hasSideEffects="true"
+                      name="Union All Input 4">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1]"
+                      name="Union All Output 1">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[ShipperID]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[ShipperID]"
+                          name="ShipperID" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[BeginDate]"
+                          name="BeginDate" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[EndDate]"
+                          dataType="date"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1].Columns[EndDate]"
+                          name="EndDate" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete"
+                  componentClassID="Microsoft.UnionAll"
+                  contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+                  name="Union All Rows to Delete"
+                  version="1">
+                  <inputs>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 1]"
+                      name="Union All Input 1">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 1].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 1].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[CompanyName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 1].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[Phone]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 1].Columns[ShipperID]"
+                          cachedDataType="i4"
+                          cachedName="ShipperID"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ShipperID]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 2]"
+                      hasSideEffects="true"
+                      name="Union All Input 2">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 2].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 2].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[CompanyName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[CompanyName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 2].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[Phone]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[Phone]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 2].Columns[ShipperID]"
+                          cachedDataType="i4"
+                          cachedName="ShipperID"
+                          lineageId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output].Columns[ShipperID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ShipperID]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 3]"
+                      dangling="true"
+                      hasSideEffects="true"
+                      name="Union All Input 3">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1]"
+                      name="Union All Output 1">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ShipperID]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ShipperID]"
+                          name="ShipperID" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="UpdateNew - Set BeginDate"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          name="BeginDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[GETDATE]()</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">GETDATE()</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          dataType="date"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          name="EndDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">NULL(DT_DATE)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">NULL(DT_DATE)</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Delete]"
+                  endId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 2]"
+                  name="Delete"
+                  startId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Delete]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Derived Column Output]"
+                  endId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 1]"
+                  name="Derived Column Output"
+                  startId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Derived Column Output1]"
+                  endId="Package\DimShippers\Managing DimShippers\Union All.Inputs[Union All Input 3]"
+                  name="Derived Column Output"
+                  startId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Insert]"
+                  endId="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate.Inputs[Derived Column Input]"
+                  name="Insert"
+                  startId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Insert]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Multicast Output 1]"
+                  endId="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate.Inputs[Derived Column Input]"
+                  name="Multicast Output 1"
+                  startId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Outputs[Multicast Output 1]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Multicast Output 3]"
+                  endId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Inputs[Union All Input 1]"
+                  name="Multicast Output 3"
+                  startId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Outputs[Multicast Output 3]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[OLE DB Source Output]"
+                  endId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Inputs[Conditional Split Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\DimShippers\Managing DimShippers\OLE DB Source.Outputs[OLE DB Source Output]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Union All Output 1]"
+                  endId="Package\DimShippers\Managing DimShippers\Insert into DimShippers.Inputs[OLE DB Destination Input]"
+                  name="Union All Output 1"
+                  startId="Package\DimShippers\Managing DimShippers\Union All.Outputs[Union All Output 1]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Union All Output 11]"
+                  endId="Package\DimShippers\Managing DimShippers\Delete - Set EndDate.Inputs[OLE DB Command Input]"
+                  name="Union All Output 1"
+                  startId="Package\DimShippers\Managing DimShippers\Union All Rows to Delete.Outputs[Union All Output 1]" />
+                <path
+                  refId="Package\DimShippers\Managing DimShippers.Paths[Update New]"
+                  endId="Package\DimShippers\Managing DimShippers\Duplicate Rows.Inputs[Multicast Input 1]"
+                  name="Update New"
+                  startId="Package\DimShippers\Managing DimShippers\Conditional Split by operation.Outputs[Update New]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="187,42"
+          Id="Package\DimShippers\Managing DimShippers"
+          TopLeft="21,11" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="222,111"
+          Size="222,154"
+          Id="Package\DimShippers"
+          TopLeft="392,105" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DimShippers\Managing DimShippers">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="210,42"
+          Id="Package\DimShippers\Managing DimShippers\UpdateNew - Set BeginDate"
+          TopLeft="723,406" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\DimShippers\Managing DimShippers\Insert into DimShippers"
+          TopLeft="539.333333333333,645" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\DimShippers\Managing DimShippers\OLE DB Source"
+          TopLeft="520,14" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\DimShippers\Managing DimShippers\Delete - Set EndDate"
+          TopLeft="954.666666666667,268.333333333333" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\DimShippers\Managing DimShippers\Conditional Split by operation"
+          TopLeft="487,136" />
+        <NodeLayout
+          Size="184,42"
+          Id="Package\DimShippers\Managing DimShippers\Insert - Set BeginDate"
+          TopLeft="92,237" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\DimShippers\Managing DimShippers\Union All"
+          TopLeft="578,550" />
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Union All Output 1]"
+          TopLeft="636.416666666667,592">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53"
+              Start="0,0"
+              End="0,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[OLE DB Source Output]"
+          TopLeft="595.25,56">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,80"
+              Start="0,0"
+              End="0,72.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Insert]"
+          TopLeft="595.5,178">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-411.5,59"
+              Start="0,0"
+              End="-411.5,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5"
+                    Point2="0,29.5"
+                    Point3="-4,29.5" />
+                  <mssgle:LineSegment
+                    End="-407.5,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-407.5,29.5"
+                    Point2="-411.5,29.5"
+                    Point3="-411.5,33.5" />
+                  <mssgle:LineSegment
+                    End="-411.5,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-219.50298828125,34.5,27.5059765625,9.40234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Derived Column Output1]"
+          TopLeft="184,279">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="426.25,271"
+              Start="0,0"
+              End="426.25,263.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,172.770889487871" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,172.770889487871"
+                    Point2="0,176.770889487871"
+                    Point3="4,176.770889487871" />
+                  <mssgle:LineSegment
+                    End="422.25,176.770889487871" />
+                  <mssgle:CubicBezierSegment
+                    Point1="422.25,176.770889487871"
+                    Point2="426.25,176.770889487871"
+                    Point3="426.25,180.770889487871" />
+                  <mssgle:LineSegment
+                    End="426.25,263.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Derived Column Output]"
+          TopLeft="828,448">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-189.5,102"
+              Start="0,0"
+              End="-189.5,94.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,47"
+                    Point2="0,51"
+                    Point3="-4,51" />
+                  <mssgle:LineSegment
+                    End="-185.5,51" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-185.5,51"
+                    Point2="-189.5,51"
+                    Point3="-189.5,55" />
+                  <mssgle:LineSegment
+                    End="-189.5,94.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Operation indexing:&#xA;1-Delete&#xA;2-Insert&#xA;3-UpdateOld(Updates before the newest update)&#xA;4-UpdateNew"
+          ParentId="Package\DimShippers\Managing DimShippers"
+          FontInfo="{assembly:Null}"
+          Size="289,104"
+          Id="20673804-9769-4772-81a8-e9ef9f5da1f7"
+          TopLeft="769,9" />
+        <AnnotationLayout
+          Text="Insert Operation:&#xA;BeginDate=Today()&#xA;EndDate=Null()"
+          ParentId="Package\DimShippers\Managing DimShippers"
+          FontInfo="{assembly:Null}"
+          Size="130,72"
+          Id="0294fca1-f90c-4518-977f-e22865b24bd2"
+          TopLeft="186,125" />
+        <AnnotationLayout
+          Text="Delete Operation&#xA;EndDate=Today()&#xA;WHERE BUISNESSKEY MATCH and ENDDATE=NULL"
+          ParentId="Package\DimShippers\Managing DimShippers"
+          FontInfo="{assembly:Null}"
+          Size="300,72"
+          Id="d528481e-c64f-48ab-a9f3-5bda15eef3e2"
+          TopLeft="807,106" />
+        <AnnotationLayout
+          Text="UpdateNew Operation:&#xA;OldEndDate=Today()&#xA;WHERE BUISNESSKEY MATCH and ENDDATE=NULL&#xA;BeginDate=Today()&#xA;EndDate=Null()"
+          ParentId="Package\DimShippers\Managing DimShippers"
+          FontInfo="{assembly:Null}"
+          Size="300,104"
+          Id="80923a92-5985-48f2-9f87-cc903a2426e1"
+          TopLeft="477,243.666666666667" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\DimShippers\Managing DimShippers\Union All Rows to Delete"
+          TopLeft="887,172" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\DimShippers\Managing DimShippers\Duplicate Rows"
+          TopLeft="750,307" />
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Update New]"
+          TopLeft="630.333333333333,178">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="171.333333333333,129"
+              Start="0,0"
+              End="171.333333333333,121.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.2458735038654" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,60.2458735038654"
+                    Point2="0,64.2458735038654"
+                    Point3="4,64.2458735038654" />
+                  <mssgle:LineSegment
+                    End="167.333333333333,64.2458735038654" />
+                  <mssgle:CubicBezierSegment
+                    Point1="167.333333333333,64.2458735038654"
+                    Point2="171.333333333333,64.2458735038654"
+                    Point3="171.333333333333,68.2458735038654" />
+                  <mssgle:LineSegment
+                    End="171.333333333333,121.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="58.0886783854167,69.2458735038654,55.1559765625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Multicast Output 1]"
+          TopLeft="826.75,349">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57"
+              Start="0,0"
+              End="0,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Multicast Output 3]"
+          TopLeft="849.333333333333,307">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="104,-93"
+              Start="0,0"
+              End="104,-85.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-42.6357799382818" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-42.6357799382818"
+                    Point2="0,-46.6357799382818"
+                    Point3="4,-46.6357799382818" />
+                  <mssgle:LineSegment
+                    End="100,-46.6357799382818" />
+                  <mssgle:CubicBezierSegment
+                    Point1="100,-46.6357799382818"
+                    Point2="104,-46.6357799382818"
+                    Point3="104,-50.6357799382818" />
+                  <mssgle:LineSegment
+                    End="104,-85.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Delete]"
+          TopLeft="704,157">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="183,36"
+              Start="0,0"
+              End="175.5,36">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="87.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="87.5,0"
+                    Point2="91.5,0"
+                    Point3="91.5,4" />
+                  <mssgle:LineSegment
+                    End="91.5,32" />
+                  <mssgle:CubicBezierSegment
+                    Point1="91.5,32"
+                    Point2="91.5,36"
+                    Point3="95.5,36" />
+                  <mssgle:LineSegment
+                    End="175.5,36" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="76.90365234375,-15.724609375,29.1926953125,9.724609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimShippers\Managing DimShippers.Paths[Union All Output 11]"
+          TopLeft="1015.66666666667,214">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28.0000000000003,54.333333333333"
+              Start="0,0"
+              End="28.0000000000003,46.833333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.9986436080026" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.9986436080026"
+                    Point2="0,21.9986436080026"
+                    Point3="4,21.9986436080026" />
+                  <mssgle:LineSegment
+                    End="24.0000000000003,21.9986436080026" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.0000000000003,21.9986436080026"
+                    Point2="28.0000000000003,21.9986436080026"
+                    Point3="28.0000000000003,25.9986436080026" />
+                  <mssgle:LineSegment
+                    End="28.0000000000003,46.833333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimShippers\Managing DimShippers\Insert into DimShippers">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimShippers\Managing DimShippers\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

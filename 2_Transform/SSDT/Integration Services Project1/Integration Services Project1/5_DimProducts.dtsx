@@ -1,0 +1,2382 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/17/2021 4:19:28 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6P5Q8A8"
+  DTS:CreatorName="DESKTOP-6P5Q8A8\Peter-New"
+  DTS:DTSID="{54BAC32B-6B07-4701-95B3-AAC2CC1F583D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="5_DimProducts"
+  DTS:PackageType="5"
+  DTS:VersionBuild="44"
+  DTS:VersionGUID="{B53AE027-5F4D-4B9E-AAE6-E7D996F9A8BF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{FD2A0FFF-7BA3-46F2-BF55-F4BC8765467B}"
+      DTS:ObjectName="LocalHost.Northwind_DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind_DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DimProducts"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{7521761B-EC47-4560-A535-9DC648983855}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DimProducts">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\DimProducts\Managing DimProducts"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{D855947A-E04E-4533-9B3B-421ADAFEAE08}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Managing DimProducts"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+                  name="Conditional Split by operation"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Inputs[Conditional Split Input].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Delete]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Delete"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Insert]"
+                      description="Output 2 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Insert"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 2</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 2</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">1</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Update New]"
+                      description="Output 4 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Update New"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]} == 4</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">__$operation == 4</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">2</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Error Records]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Error Records"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate"
+                  componentClassID="Microsoft.OLEDBCommand"
+                  contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+                  name="Delete - Set EndDate"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE DimProducts
+SET EndDate = GETDATE()
+WHERE ProductID = ? AND
+	EndDate is NULL</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Inputs[OLE DB Command Input]"
+                      errorOrTruncationOperation="Command Execution"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Command Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Inputs[OLE DB Command Input].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductID]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                          dataType="i4"
+                          name="Param_0">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Outputs[OLE DB Command Output]"
+                      exclusionGroup="1"
+                      name="OLE DB Command Output"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Inputs[OLE DB Command Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Outputs[OLE DB Command Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Command Error Output"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Inputs[OLE DB Command Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\Duplicate Rows"
+                  componentClassID="Microsoft.Multicast"
+                  contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+                  name="Duplicate Rows">
+                  <inputs>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Inputs[Multicast Input 1]"
+                      name="Multicast Input 1">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Outputs[Multicast Output 1]"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 1"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Outputs[Multicast Output 2]"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 2"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Outputs[Multicast Output 3]"
+                      dangling="true"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 3"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Insert - Set BeginDate"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          name="BeginDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[GETDATE]()</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">GETDATE()</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          dataType="date"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          name="EndDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">NULL(DT_DATE)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">NULL(DT_DATE)</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Insert into DimProducts"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[DimProducts]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[SupplierID]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[SupplierID]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[BeginDate]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[BeginDate]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[EndDate]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductID]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[ProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="ProductName"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductName]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[CategoryID]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[QuantityPerUnit]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="QuantityPerUnit"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[QuantityPerUnit]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[QuantityPerUnit]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[UnitPrice]"
+                          cachedDataType="cy"
+                          cachedName="UnitPrice"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[UnitPrice]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitPrice]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[UnitsInStock]"
+                          cachedDataType="i2"
+                          cachedName="UnitsInStock"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[UnitsInStock]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsInStock]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[UnitsOnOrder]"
+                          cachedDataType="i2"
+                          cachedName="UnitsOnOrder"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[UnitsOnOrder]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsOnOrder]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[ReorderLevel]"
+                          cachedDataType="i2"
+                          cachedName="ReorderLevel"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[ReorderLevel]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ReorderLevel]" />
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].Columns[Discontinued]"
+                          cachedDataType="bool"
+                          cachedName="Discontinued"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[Discontinued]"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[Discontinued]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[SynthKey]"
+                          dataType="i4"
+                          name="SynthKey" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          name="BeginDate" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                          dataType="dbTimeStamp"
+                          name="EndDate" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[SupplierID]"
+                          dataType="i4"
+                          name="SupplierID" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                          dataType="i4"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="40"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                          dataType="i4"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[QuantityPerUnit]"
+                          dataType="wstr"
+                          length="20"
+                          name="QuantityPerUnit" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[UnitPrice]"
+                          dataType="cy"
+                          name="UnitPrice" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[UnitsInStock]"
+                          dataType="i2"
+                          name="UnitsInStock" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[UnitsOnOrder]"
+                          dataType="i2"
+                          name="UnitsOnOrder" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[ReorderLevel]"
+                          dataType="i2"
+                          name="ReorderLevel" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input].ExternalColumns[Discontinued]"
+                          dataType="bool"
+                          name="Discontinued" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[StageProducts]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          name="__$operation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                          name="SupplierID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]"
+                          name="ProductID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProductName]"
+                          length="40"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductName]"
+                          name="ProductName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CategoryID]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]"
+                          name="CategoryID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[QuantityPerUnit]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[QuantityPerUnit]"
+                          length="20"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[QuantityPerUnit]"
+                          name="QuantityPerUnit"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitPrice]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UnitPrice]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitPrice]"
+                          name="UnitPrice"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsInStock]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UnitsInStock]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsInStock]"
+                          name="UnitsInStock"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsOnOrder]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UnitsOnOrder]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsOnOrder]"
+                          name="UnitsOnOrder"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ReorderLevel]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ReorderLevel]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ReorderLevel]"
+                          name="ReorderLevel"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discontinued]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Discontinued]"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discontinued]"
+                          name="Discontinued"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                          dataType="i4"
+                          name="SupplierID" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                          dataType="i4"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="40"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CategoryID]"
+                          dataType="i4"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[QuantityPerUnit]"
+                          dataType="wstr"
+                          length="20"
+                          name="QuantityPerUnit" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UnitPrice]"
+                          dataType="cy"
+                          name="UnitPrice" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UnitsInStock]"
+                          dataType="i2"
+                          name="UnitsInStock" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UnitsOnOrder]"
+                          dataType="i2"
+                          name="UnitsOnOrder" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ReorderLevel]"
+                          dataType="i2"
+                          name="ReorderLevel" />
+                        <externalMetadataColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Discontinued]"
+                          dataType="bool"
+                          name="Discontinued" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                          name="ProductID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProductName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProductName]"
+                          name="ProductName" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                          name="SupplierID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CategoryID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CategoryID]"
+                          name="CategoryID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[QuantityPerUnit]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[QuantityPerUnit]"
+                          name="QuantityPerUnit" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UnitPrice]"
+                          dataType="cy"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UnitPrice]"
+                          name="UnitPrice" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UnitsInStock]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UnitsInStock]"
+                          name="UnitsInStock" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UnitsOnOrder]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UnitsOnOrder]"
+                          name="UnitsOnOrder" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ReorderLevel]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ReorderLevel]"
+                          name="ReorderLevel" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Discontinued]"
+                          dataType="bool"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Discontinued]"
+                          name="Discontinued" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\Union All"
+                  componentClassID="Microsoft.UnionAll"
+                  contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+                  name="Union All"
+                  version="1">
+                  <inputs>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1]"
+                      name="Union All Input 1">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[SupplierID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[ProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="ProductName"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[CategoryID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[QuantityPerUnit]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="QuantityPerUnit"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[QuantityPerUnit]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[QuantityPerUnit]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[UnitPrice]"
+                          cachedDataType="cy"
+                          cachedName="UnitPrice"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitPrice]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitPrice]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[UnitsInStock]"
+                          cachedDataType="i2"
+                          cachedName="UnitsInStock"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsInStock]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsInStock]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[UnitsOnOrder]"
+                          cachedDataType="i2"
+                          cachedName="UnitsOnOrder"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsOnOrder]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsOnOrder]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[ReorderLevel]"
+                          cachedDataType="i2"
+                          cachedName="ReorderLevel"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ReorderLevel]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ReorderLevel]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[Discontinued]"
+                          cachedDataType="bool"
+                          cachedName="Discontinued"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discontinued]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[Discontinued]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          lineageId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[BeginDate]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          lineageId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3]"
+                      hasSideEffects="true"
+                      name="Union All Input 3">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[SupplierID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[ProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="ProductName"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[CategoryID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[QuantityPerUnit]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="QuantityPerUnit"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[QuantityPerUnit]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[QuantityPerUnit]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[UnitPrice]"
+                          cachedDataType="cy"
+                          cachedName="UnitPrice"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitPrice]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitPrice]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[UnitsInStock]"
+                          cachedDataType="i2"
+                          cachedName="UnitsInStock"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsInStock]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsInStock]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[UnitsOnOrder]"
+                          cachedDataType="i2"
+                          cachedName="UnitsOnOrder"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsOnOrder]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsOnOrder]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[ReorderLevel]"
+                          cachedDataType="i2"
+                          cachedName="ReorderLevel"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ReorderLevel]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ReorderLevel]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[Discontinued]"
+                          cachedDataType="bool"
+                          cachedName="Discontinued"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discontinued]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[Discontinued]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[BeginDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="BeginDate"
+                          lineageId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[BeginDate]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3].Columns[EndDate]"
+                          cachedDataType="date"
+                          cachedName="EndDate"
+                          lineageId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 2]"
+                      dangling="true"
+                      hasSideEffects="true"
+                      name="Union All Input 2">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1]"
+                      name="Union All Output 1">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[SupplierID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[SupplierID]"
+                          name="SupplierID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductID]"
+                          name="ProductID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ProductName]"
+                          name="ProductName" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[CategoryID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[CategoryID]"
+                          name="CategoryID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[QuantityPerUnit]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[QuantityPerUnit]"
+                          name="QuantityPerUnit" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitPrice]"
+                          dataType="cy"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitPrice]"
+                          name="UnitPrice" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsInStock]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsInStock]"
+                          name="UnitsInStock" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsOnOrder]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[UnitsOnOrder]"
+                          name="UnitsOnOrder" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ReorderLevel]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[ReorderLevel]"
+                          name="ReorderLevel" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[Discontinued]"
+                          dataType="bool"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[Discontinued]"
+                          name="Discontinued" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[BeginDate]"
+                          name="BeginDate" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[EndDate]"
+                          dataType="date"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1].Columns[EndDate]"
+                          name="EndDate" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete"
+                  componentClassID="Microsoft.UnionAll"
+                  contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+                  name="Union All Rows to Delete"
+                  version="1">
+                  <inputs>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1]"
+                      name="Union All Input 1">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[SupplierID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[ProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="ProductName"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[CategoryID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[QuantityPerUnit]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="QuantityPerUnit"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[QuantityPerUnit]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[QuantityPerUnit]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[UnitPrice]"
+                          cachedDataType="cy"
+                          cachedName="UnitPrice"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitPrice]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitPrice]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[UnitsInStock]"
+                          cachedDataType="i2"
+                          cachedName="UnitsInStock"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsInStock]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitsInStock]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[UnitsOnOrder]"
+                          cachedDataType="i2"
+                          cachedName="UnitsOnOrder"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsOnOrder]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitsOnOrder]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[ReorderLevel]"
+                          cachedDataType="i2"
+                          cachedName="ReorderLevel"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ReorderLevel]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ReorderLevel]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1].Columns[Discontinued]"
+                          cachedDataType="bool"
+                          cachedName="Discontinued"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discontinued]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[Discontinued]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2]"
+                      hasSideEffects="true"
+                      name="Union All Input 2">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[SupplierID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[SupplierID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[ProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="ProductName"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[CategoryID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[QuantityPerUnit]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="QuantityPerUnit"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[QuantityPerUnit]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[QuantityPerUnit]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[UnitPrice]"
+                          cachedDataType="cy"
+                          cachedName="UnitPrice"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitPrice]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitPrice]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[UnitsInStock]"
+                          cachedDataType="i2"
+                          cachedName="UnitsInStock"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsInStock]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitsInStock]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[UnitsOnOrder]"
+                          cachedDataType="i2"
+                          cachedName="UnitsOnOrder"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[UnitsOnOrder]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitsOnOrder]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[ReorderLevel]"
+                          cachedDataType="i2"
+                          cachedName="ReorderLevel"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ReorderLevel]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ReorderLevel]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2].Columns[Discontinued]"
+                          cachedDataType="bool"
+                          cachedName="Discontinued"
+                          lineageId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discontinued]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[Discontinued]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 3]"
+                      dangling="true"
+                      hasSideEffects="true"
+                      name="Union All Input 3">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1]"
+                      name="Union All Output 1">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[SupplierID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[SupplierID]"
+                          name="SupplierID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductID]"
+                          name="ProductID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ProductName]"
+                          name="ProductName" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[CategoryID]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[CategoryID]"
+                          name="CategoryID" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[QuantityPerUnit]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[QuantityPerUnit]"
+                          name="QuantityPerUnit" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitPrice]"
+                          dataType="cy"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitPrice]"
+                          name="UnitPrice" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitsInStock]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitsInStock]"
+                          name="UnitsInStock" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitsOnOrder]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[UnitsOnOrder]"
+                          name="UnitsOnOrder" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ReorderLevel]"
+                          dataType="i2"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[ReorderLevel]"
+                          name="ReorderLevel" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[Discontinued]"
+                          dataType="bool"
+                          lineageId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1].Columns[Discontinued]"
+                          name="Discontinued" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="UpdateNew - Set BeginDate"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[BeginDate]"
+                          name="BeginDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[GETDATE]()</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">GETDATE()</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          dataType="date"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Output].Columns[EndDate]"
+                          name="EndDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">NULL(DT_DATE)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">NULL(DT_DATE)</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Delete]"
+                  endId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 2]"
+                  name="Delete"
+                  startId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Delete]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Derived Column Output]"
+                  endId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 1]"
+                  name="Derived Column Output"
+                  startId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Derived Column Output1]"
+                  endId="Package\DimProducts\Managing DimProducts\Union All.Inputs[Union All Input 3]"
+                  name="Derived Column Output"
+                  startId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Insert]"
+                  endId="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate.Inputs[Derived Column Input]"
+                  name="Insert"
+                  startId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Insert]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Multicast Output 1]"
+                  endId="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate.Inputs[Derived Column Input]"
+                  name="Multicast Output 1"
+                  startId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Outputs[Multicast Output 1]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Multicast Output 2]"
+                  endId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Inputs[Union All Input 1]"
+                  name="Multicast Output 2"
+                  startId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Outputs[Multicast Output 2]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[OLE DB Source Output]"
+                  endId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Inputs[Conditional Split Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\DimProducts\Managing DimProducts\OLE DB Source.Outputs[OLE DB Source Output]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Union All Output 1]"
+                  endId="Package\DimProducts\Managing DimProducts\Insert into DimProducts.Inputs[OLE DB Destination Input]"
+                  name="Union All Output 1"
+                  startId="Package\DimProducts\Managing DimProducts\Union All.Outputs[Union All Output 1]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Union All Output 11]"
+                  endId="Package\DimProducts\Managing DimProducts\Delete - Set EndDate.Inputs[OLE DB Command Input]"
+                  name="Union All Output 1"
+                  startId="Package\DimProducts\Managing DimProducts\Union All Rows to Delete.Outputs[Union All Output 1]" />
+                <path
+                  refId="Package\DimProducts\Managing DimProducts.Paths[Update New]"
+                  endId="Package\DimProducts\Managing DimProducts\Duplicate Rows.Inputs[Multicast Input 1]"
+                  name="Update New"
+                  startId="Package\DimProducts\Managing DimProducts\Conditional Split by operation.Outputs[Update New]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="187,42"
+          Id="Package\DimProducts\Managing DimProducts"
+          TopLeft="21,11" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="222,111"
+          Size="222,154"
+          Id="Package\DimProducts"
+          TopLeft="392,105" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DimProducts\Managing DimProducts">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="121,42"
+          Id="Package\DimProducts\Managing DimProducts\Union All"
+          TopLeft="582.727272727273,554.545454545455" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\DimProducts\Managing DimProducts\Insert into DimProducts"
+          TopLeft="553.333333333333,645" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\DimProducts\Managing DimProducts\Delete - Set EndDate"
+          TopLeft="980.666666666667,264.333333333333" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\DimProducts\Managing DimProducts\OLE DB Source"
+          TopLeft="520,14" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\DimProducts\Managing DimProducts\UpdateNew - Set BeginDate"
+          TopLeft="723,406" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\DimProducts\Managing DimProducts\Conditional Split by operation"
+          TopLeft="486.090909090909,134.090909090909" />
+        <NodeLayout
+          Size="184,42"
+          Id="Package\DimProducts\Managing DimProducts\Insert - Set BeginDate"
+          TopLeft="92,237" />
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[OLE DB Source Output]"
+          TopLeft="594.795454545455,56">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,78.0909090909091"
+              Start="0,0"
+              End="0,70.5909090909091">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.5909090909091" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Insert]"
+          TopLeft="594.590909090909,176.090909090909">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-410.590909090909,60.9090909090909"
+              Start="0,0"
+              End="-410.590909090909,53.4090909090909">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.4545454545455" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.4545454545455"
+                    Point2="0,30.4545454545455"
+                    Point3="-4,30.4545454545455" />
+                  <mssgle:LineSegment
+                    End="-406.590909090909,30.4545454545455" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-406.590909090909,30.4545454545455"
+                    Point2="-410.590909090909,30.4545454545455"
+                    Point3="-410.590909090909,34.4545454545455" />
+                  <mssgle:LineSegment
+                    End="-410.590909090909,53.4090909090909" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-219.048442826705,35.4545454545455,27.5059765625,9.40234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Derived Column Output1]"
+          TopLeft="184,279">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="430.977272727273,275.545454545455"
+              Start="0,0"
+              End="430.977272727273,268.045454545455">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,175.735849056604" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,175.735849056604"
+                    Point2="0,179.735849056604"
+                    Point3="4,179.735849056604" />
+                  <mssgle:LineSegment
+                    End="426.977272727273,179.735849056604" />
+                  <mssgle:CubicBezierSegment
+                    Point1="426.977272727273,179.735849056604"
+                    Point2="430.977272727273,179.735849056604"
+                    Point3="430.977272727273,183.735849056604" />
+                  <mssgle:LineSegment
+                    End="430.977272727273,268.045454545455" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Derived Column Output]"
+          TopLeft="828,448">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-184.772727272727,106.545454545455"
+              Start="0,0"
+              End="-184.772727272727,99.0454545454545">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.2727272727273" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,49.2727272727273"
+                    Point2="0,53.2727272727273"
+                    Point3="-4,53.2727272727273" />
+                  <mssgle:LineSegment
+                    End="-180.772727272727,53.2727272727273" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-180.772727272727,53.2727272727273"
+                    Point2="-184.772727272727,53.2727272727273"
+                    Point3="-184.772727272727,57.2727272727273" />
+                  <mssgle:LineSegment
+                    End="-184.772727272727,99.0454545454545" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Union All Output 1]"
+          TopLeft="645.780303030303,596.545454545455">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.4545454545455"
+              Start="0,0"
+              End="0,40.9545454545455">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.9545454545455" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Operation indexing:&#xA;1-Delete&#xA;2-Insert&#xA;3-UpdateOld(Updates before the newest update)&#xA;4-UpdateNew"
+          ParentId="Package\DimProducts\Managing DimProducts"
+          FontInfo="{assembly:Null}"
+          Size="289,104"
+          Id="20673804-9769-4772-81a8-e9ef9f5da1f7"
+          TopLeft="769,9" />
+        <AnnotationLayout
+          Text="Insert Operation:&#xA;BeginDate=Today()&#xA;EndDate=Null()"
+          ParentId="Package\DimProducts\Managing DimProducts"
+          FontInfo="{assembly:Null}"
+          Size="130,72"
+          Id="0294fca1-f90c-4518-977f-e22865b24bd2"
+          TopLeft="186,125" />
+        <AnnotationLayout
+          Text="Delete Operation&#xA;EndDate=Today()&#xA;WHERE BUISNESSKEY MATCH and ENDDATE=NULL"
+          ParentId="Package\DimProducts\Managing DimProducts"
+          FontInfo="{assembly:Null}"
+          Size="300,72"
+          Id="d528481e-c64f-48ab-a9f3-5bda15eef3e2"
+          TopLeft="804,122" />
+        <AnnotationLayout
+          Text="UpdateNew Operation:&#xA;OldEndDate=Today()&#xA;WHERE BUISNESSKEY MATCH and ENDDATE=NULL&#xA;BeginDate=Today()&#xA;EndDate=Null()"
+          ParentId="Package\DimProducts\Managing DimProducts"
+          FontInfo="{assembly:Null}"
+          Size="300,104"
+          Id="80923a92-5985-48f2-9f87-cc903a2426e1"
+          TopLeft="493,252.666666666667" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\DimProducts\Managing DimProducts\Union All Rows to Delete"
+          TopLeft="878,192" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\DimProducts\Managing DimProducts\Duplicate Rows"
+          TopLeft="753,325" />
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Update New]"
+          TopLeft="629.424242424242,176.090909090909">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="175.242424242424,148.909090909091"
+              Start="0,0"
+              End="175.242424242424,141.409090909091">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.1611985900857" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,70.1611985900857"
+                    Point2="0,74.1611985900857"
+                    Point3="4,74.1611985900857" />
+                  <mssgle:LineSegment
+                    End="171.242424242424,74.1611985900857" />
+                  <mssgle:CubicBezierSegment
+                    Point1="171.242424242424,74.1611985900857"
+                    Point2="175.242424242424,74.1611985900857"
+                    Point3="175.242424242424,78.1611985900857" />
+                  <mssgle:LineSegment
+                    End="175.242424242424,141.409090909091" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="60.0432238399622,79.1611985900857,55.1559765625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Multicast Output 1]"
+          TopLeft="828.25,367">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Multicast Output 2]"
+          TopLeft="852.333333333333,325">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="92,-91"
+              Start="0,0"
+              End="92,-83.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-41.6328599396091" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-41.6328599396091"
+                    Point2="0,-45.6328599396091"
+                    Point3="4,-45.6328599396091" />
+                  <mssgle:LineSegment
+                    End="88,-45.6328599396091" />
+                  <mssgle:CubicBezierSegment
+                    Point1="88,-45.6328599396091"
+                    Point2="92,-45.6328599396091"
+                    Point3="92,-49.6328599396091" />
+                  <mssgle:LineSegment
+                    End="92,-83.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Delete]"
+          TopLeft="703.090909090909,155.090909090909">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="174.909090909091,57.909090909091"
+              Start="0,0"
+              End="167.409090909091,57.909090909091">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="83.4545454545455,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="83.4545454545455,0"
+                    Point2="87.4545454545455,0"
+                    Point3="87.4545454545455,4" />
+                  <mssgle:LineSegment
+                    End="87.4545454545455,53.909090909091" />
+                  <mssgle:CubicBezierSegment
+                    Point1="87.4545454545455,53.909090909091"
+                    Point2="87.4545454545455,57.909090909091"
+                    Point3="91.4545454545455,57.909090909091" />
+                  <mssgle:LineSegment
+                    End="167.409090909091,57.909090909091" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="72.8581977982955,-15.724609375,29.1926953125,9.724609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimProducts\Managing DimProducts.Paths[Union All Output 11]"
+          TopLeft="1006.66666666667,234">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="63.0000000000003,30.333333333333"
+              Start="0,0"
+              End="63.0000000000003,22.833333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.28145133943698" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.28145133943698"
+                    Point2="0,12.281451339437"
+                    Point3="4,12.281451339437" />
+                  <mssgle:LineSegment
+                    End="59.0000000000003,12.281451339437" />
+                  <mssgle:CubicBezierSegment
+                    Point1="59.0000000000003,12.281451339437"
+                    Point2="63.0000000000003,12.281451339437"
+                    Point3="63.0000000000003,16.281451339437" />
+                  <mssgle:LineSegment
+                    End="63.0000000000003,22.833333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimProducts\Managing DimProducts\Insert into DimProducts">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimProducts\Managing DimProducts\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

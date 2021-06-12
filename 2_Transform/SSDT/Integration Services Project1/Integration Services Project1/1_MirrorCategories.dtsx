@@ -1,0 +1,1286 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/13/2021 3:12:38 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6P5Q8A8"
+  DTS:CreatorName="DESKTOP-6P5Q8A8\Peter-New"
+  DTS:DTSID="{7E007DA0-DA9B-475C-98BE-63EF7CD2D350}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="1_MirrorCategories"
+  DTS:PackageType="5"
+  DTS:VersionBuild="41"
+  DTS:VersionGUID="{807454A9-8C5D-49DA-B8BC-66BCD055AA1E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{6AF1B047-DF7F-46B3-8F50-911F61B0AC4D}"
+      DTS:ObjectName="LocalHost.Northwind">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind;Integrated Security=True;Application Name=SSIS-1_MirrorCategories-{6AF1B047-DF7F-46B3-8F50-911F61B0AC4D}LocalHost.Northwind;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{369287DA-D229-43F2-B4C6-E38B0CD0E7FC}"
+      DTS:ObjectName="LocalHost.Northwind_DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind_DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{69135B7F-3B7A-4998-832C-F8C60B1E3CE9}"
+      DTS:ObjectName="CDC_State">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Mirror Creation"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{721B3D3F-B12E-454A-A725-131B755813A5}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Mirror Creation">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Mirror Creation\Import to MirrorCategories"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{D430B448-3AF8-4238-987D-B91EE3AD4C03}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Import to MirrorCategories"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Attunity Ltd.; All Rights Reserved; http://www.attunity.com;"
+                  description="Reads change data from a SQL Server change table making it available for processing by downstream data-flow components. Only changes within the current processing range determined by the CDC Control task are read"
+                  name="CDC Source- Latest Changes"
+                  usesDispositions="true"
+                  version="8">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="An SSIS string package variable to store the CDC state of the current CDC state."
+                      expressionType="Notify"
+                      name="StateVariable"
+                      typeConverter="Attunity.SqlServer.CDCSrc.PackageVariablesTypeConverter">$Package::CDC_State</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the content of the metadata columns and the rows returned. Modes starting with ‘All’ return all changes and modes starting with ‘Net’ return net changes."
+                      expressionType="Notify"
+                      name="CDCProcessingMode"
+                      typeConverter="Attunity.SqlServer.CDCSrc.CdcProcessingMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The name of the CDC capture instance. By default the capture instance name is in the form of &quot;&lt;owner&gt;_&lt;table&gt;&quot;. The actual table that stores the changes is the CDC table named &quot;cdc&quot;.&quot;&lt;capture-instance&gt;_CT&quot;"
+                      expressionType="Notify"
+                      name="CaptureInstance">dbo_Categories</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time out."
+                      expressionType="Notify"
+                      name="CommandTimeout">30</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="If true, a special output column called ‘__$reprocessing ’ is added. This output column is true for each data row during the initial processing range, or when the previous CDC run&#xA;was stopped without finishing. The default value is false (the __$reprocessing output column is not generated). This special output column allows the SSIS developer to handle consistency errors differently when working on the Initial Processing Range or the previous CDC run was stopped."
+                      expressionType="Notify"
+                      name="ReprocessingIndication">false</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Attunity.CdcSourceComponent</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Connections[Connection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind]"
+                      name="Connection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output]"
+                      name="Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$start_lsn]"
+                          dataType="bytes"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[__$start_lsn]"
+                          length="10"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$start_lsn]"
+                          name="__$start_lsn"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$operation]"
+                          dataType="i4"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[__$operation]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$operation]"
+                          name="__$operation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$update_mask]"
+                          dataType="bytes"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[__$update_mask]"
+                          length="128"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$update_mask]"
+                          name="__$update_mask"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryID]"
+                          dataType="i4"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[CategoryID]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryID]"
+                          name="CategoryID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryName]"
+                          dataType="wstr"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[CategoryName]"
+                          length="15"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryName]"
+                          name="CategoryName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Description]"
+                          dataType="nText"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[Description]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Description]"
+                          name="Description"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Picture]"
+                          dataType="image"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[Picture]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Picture]"
+                          name="Picture"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$command_id]"
+                          dataType="i4"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[__$command_id]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$command_id]"
+                          name="__$command_id"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[__$start_lsn]"
+                          dataType="bytes"
+                          length="10"
+                          name="__$start_lsn" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[__$update_mask]"
+                          dataType="bytes"
+                          length="128"
+                          name="__$update_mask" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[CategoryID]"
+                          dataType="i4"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[CategoryName]"
+                          dataType="wstr"
+                          length="15"
+                          name="CategoryName" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[Description]"
+                          dataType="nText"
+                          name="Description" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[Picture]"
+                          dataType="image"
+                          name="Picture" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].ExternalColumns[__$command_id]"
+                          dataType="i4"
+                          name="__$command_id" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput]"
+                      isErrorOut="true"
+                      name="ErrorOutput">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[__$start_lsn]"
+                          dataType="bytes"
+                          length="10"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[__$start_lsn]"
+                          name="__$start_lsn" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[__$update_mask]"
+                          dataType="bytes"
+                          length="128"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[__$update_mask]"
+                          name="__$update_mask" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[CategoryID]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[CategoryID]"
+                          name="CategoryID" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[CategoryName]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[CategoryName]"
+                          name="CategoryName" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[Description]"
+                          dataType="nText"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[Description]"
+                          name="Description" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[Picture]"
+                          dataType="image"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[Picture]"
+                          name="Picture" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[__$command_id]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[ErrorOutput].Columns[__$command_id]"
+                          name="__$command_id" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Attunity Ltd.; All Rights Reserved; http://www.attunity.com;"
+                  description="Directs a stream of net change records into different outputs based on the type of the change (Insert, Delete and Update). This allows specific handling for different types of change records."
+                  name="CDC Splitter"
+                  usesDispositions="true"
+                  version="8">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Attunity.CdcSplitterComponent</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input]"
+                      errorOrTruncationOperation="Operation of the changed row is not a valid one"
+                      errorRowDisposition="FailComponent"
+                      name="Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input].Columns[__$start_lsn]"
+                          cachedDataType="bytes"
+                          cachedLength="10"
+                          cachedName="__$start_lsn"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$start_lsn]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$operation]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input].Columns[__$update_mask]"
+                          cachedDataType="bytes"
+                          cachedLength="128"
+                          cachedName="__$update_mask"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$update_mask]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryID]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input].Columns[CategoryName]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="CategoryName"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryName]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input].Columns[Description]"
+                          cachedDataType="nText"
+                          cachedName="Description"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Description]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input].Columns[Picture]"
+                          cachedDataType="image"
+                          cachedName="Picture"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Picture]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input].Columns[__$command_id]"
+                          cachedDataType="i4"
+                          cachedName="__$command_id"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$command_id]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[InsertOutput]"
+                      exclusionGroup="1"
+                      name="InsertOutput"
+                      synchronousInputId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Output type - Insert."
+                          name="OutputType"
+                          typeConverter="Attunity.SqlServer.CDCSplit.OutputType">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[DeleteOutput]"
+                      exclusionGroup="1"
+                      name="DeleteOutput"
+                      synchronousInputId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Output type - Delete."
+                          name="OutputType"
+                          typeConverter="Attunity.SqlServer.CDCSplit.OutputType">2</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[UpdateOutput]"
+                      exclusionGroup="1"
+                      name="UpdateOutput"
+                      synchronousInputId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Output type - Update."
+                          name="OutputType"
+                          typeConverter="Attunity.SqlServer.CDCSplit.OutputType">1</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[ErrorOutput]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="ErrorOutput"
+                      synchronousInputId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Output type - Error."
+                          name="OutputType"
+                          typeConverter="Attunity.SqlServer.CDCSplit.OutputType">3</property>
+                      </properties>
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[ErrorOutput].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[ErrorOutput].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[ErrorOutput].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[ErrorOutput].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Inserting into MirrorCategories"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[MirrorCategories]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[__$operation]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$operation]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryID]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].Columns[CategoryName]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="CategoryName"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[CategoryName]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryName]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].Columns[Description]"
+                          cachedDataType="nText"
+                          cachedName="Description"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Description]" />
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].Columns[Picture]"
+                          cachedDataType="image"
+                          cachedName="Picture"
+                          externalMetadataColumnId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[Picture]"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Picture]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                          dataType="i4"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[CategoryName]"
+                          dataType="wstr"
+                          length="15"
+                          name="CategoryName" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                          dataType="nText"
+                          name="Description" />
+                        <externalMetadataColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input].ExternalColumns[Picture]"
+                          dataType="image"
+                          name="Picture" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Mirror Creation\Import to MirrorCategories\Union All"
+                  componentClassID="Microsoft.UnionAll"
+                  contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+                  name="Union All"
+                  version="1">
+                  <inputs>
+                    <input
+                      refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1]"
+                      name="Union All Input 1">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1].Columns[__$start_lsn]"
+                          cachedDataType="bytes"
+                          cachedLength="10"
+                          cachedName="__$start_lsn"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$start_lsn]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$start_lsn]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1].Columns[__$update_mask]"
+                          cachedDataType="bytes"
+                          cachedLength="128"
+                          cachedName="__$update_mask"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$update_mask]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$update_mask]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1].Columns[CategoryName]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="CategoryName"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1].Columns[Description]"
+                          cachedDataType="nText"
+                          cachedName="Description"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Description]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Description]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1].Columns[Picture]"
+                          cachedDataType="image"
+                          cachedName="Picture"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Picture]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Picture]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1].Columns[__$command_id]"
+                          cachedDataType="i4"
+                          cachedName="__$command_id"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$command_id]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$command_id]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2]"
+                      hasSideEffects="true"
+                      name="Union All Input 2">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2].Columns[__$start_lsn]"
+                          cachedDataType="bytes"
+                          cachedLength="10"
+                          cachedName="__$start_lsn"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$start_lsn]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$start_lsn]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2].Columns[__$update_mask]"
+                          cachedDataType="bytes"
+                          cachedLength="128"
+                          cachedName="__$update_mask"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$update_mask]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$update_mask]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2].Columns[CategoryName]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="CategoryName"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2].Columns[Description]"
+                          cachedDataType="nText"
+                          cachedName="Description"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Description]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Description]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2].Columns[Picture]"
+                          cachedDataType="image"
+                          cachedName="Picture"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Picture]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Picture]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2].Columns[__$command_id]"
+                          cachedDataType="i4"
+                          cachedName="__$command_id"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$command_id]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$command_id]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3]"
+                      hasSideEffects="true"
+                      name="Union All Input 3">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3].Columns[__$start_lsn]"
+                          cachedDataType="bytes"
+                          cachedLength="10"
+                          cachedName="__$start_lsn"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$start_lsn]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$start_lsn]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$operation]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3].Columns[__$update_mask]"
+                          cachedDataType="bytes"
+                          cachedLength="128"
+                          cachedName="__$update_mask"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$update_mask]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$update_mask]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryID]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryID]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3].Columns[CategoryName]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="CategoryName"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[CategoryName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryName]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3].Columns[Description]"
+                          cachedDataType="nText"
+                          cachedName="Description"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Description]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Description]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3].Columns[Picture]"
+                          cachedDataType="image"
+                          cachedName="Picture"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[Picture]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Picture]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3].Columns[__$command_id]"
+                          cachedDataType="i4"
+                          cachedName="__$command_id"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output].Columns[__$command_id]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Output column lineage ID"
+                              name="OutputColumnLineageID">#{Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$command_id]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                    <input
+                      refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 4]"
+                      dangling="true"
+                      hasSideEffects="true"
+                      name="Union All Input 4">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1]"
+                      name="Union All Output 1">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$start_lsn]"
+                          dataType="bytes"
+                          length="10"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$start_lsn]"
+                          name="__$start_lsn" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$update_mask]"
+                          dataType="bytes"
+                          length="128"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$update_mask]"
+                          name="__$update_mask" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryID]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryID]"
+                          name="CategoryID" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryName]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[CategoryName]"
+                          name="CategoryName" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Description]"
+                          dataType="nText"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Description]"
+                          name="Description" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Picture]"
+                          dataType="image"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[Picture]"
+                          name="Picture" />
+                        <outputColumn
+                          refId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$command_id]"
+                          dataType="i4"
+                          lineageId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1].Columns[__$command_id]"
+                          name="__$command_id" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Mirror Creation\Import to MirrorCategories.Paths[DeleteOutput]"
+                  endId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 1]"
+                  name="DeleteOutput"
+                  startId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[DeleteOutput]" />
+                <path
+                  refId="Package\Mirror Creation\Import to MirrorCategories.Paths[InsertOutput]"
+                  endId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 2]"
+                  name="InsertOutput"
+                  startId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[InsertOutput]" />
+                <path
+                  refId="Package\Mirror Creation\Import to MirrorCategories.Paths[Output]"
+                  endId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Inputs[Input]"
+                  name="Output"
+                  startId="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes.Outputs[Output]" />
+                <path
+                  refId="Package\Mirror Creation\Import to MirrorCategories.Paths[Union All Output 1]"
+                  endId="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories.Inputs[OLE DB Destination Input]"
+                  name="Union All Output 1"
+                  startId="Package\Mirror Creation\Import to MirrorCategories\Union All.Outputs[Union All Output 1]" />
+                <path
+                  refId="Package\Mirror Creation\Import to MirrorCategories.Paths[UpdateOutput]"
+                  endId="Package\Mirror Creation\Import to MirrorCategories\Union All.Inputs[Union All Input 3]"
+                  name="UpdateOutput"
+                  startId="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter.Outputs[UpdateOutput]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Mirror Creation\Truncate MirrorCategories"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{a140bad6-6e59-4b95-b993-8ab8efc5c1c3}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate MirrorCategories"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{369287DA-D229-43F2-B4C6-E38B0CD0E7FC}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE MirrorCategories" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Mirror Creation.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{BABE098D-D070-460F-8EBB-DD11D5EC6040}"
+          DTS:From="Package\Mirror Creation\Truncate MirrorCategories"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Mirror Creation\Import to MirrorCategories" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Mirror Creation\Import to MirrorCategories"
+          TopLeft="22,120.5" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Mirror Creation\Truncate MirrorCategories"
+          TopLeft="28,20.5" />
+        <EdgeLayout
+          Id="Package\Mirror Creation.PrecedenceConstraints[Constraint]"
+          TopLeft="126.75,62.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="239,282"
+          Size="239,325"
+          Id="Package\Mirror Creation"
+          TopLeft="264,73" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Mirror Creation\Import to MirrorCategories">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="223,42"
+          Id="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories"
+          TopLeft="473,433" />
+        <NodeLayout
+          Size="136,42"
+          Id="Package\Mirror Creation\Import to MirrorCategories\CDC Splitter"
+          TopLeft="516,161" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes"
+          TopLeft="470,42" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Mirror Creation\Import to MirrorCategories\Union All"
+          TopLeft="522,303" />
+        <EdgeLayout
+          Id="Package\Mirror Creation\Import to MirrorCategories.Paths[UpdateOutput]"
+          TopLeft="583.25,203">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,100"
+              Start="0,0"
+              End="0,92.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,92.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-31.63033203125,40.4453125,63.2606640625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Mirror Creation\Import to MirrorCategories.Paths[Union All Output 1]"
+          TopLeft="583.5,345">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,88"
+              Start="0,0"
+              End="0,80.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,80.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Mirror Creation\Import to MirrorCategories.Paths[Output]"
+          TopLeft="580.5,84">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77"
+              Start="0,0"
+              End="0,69.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,69.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Mirror Creation\Import to MirrorCategories.Paths[InsertOutput]"
+          TopLeft="583.25,203">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,100"
+              Start="0,0"
+              End="0,92.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,92.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-28.97798828125,40.533203125,57.9559765625,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Mirror Creation\Import to MirrorCategories.Paths[DeleteOutput]"
+          TopLeft="583.25,203">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,100"
+              Start="0,0"
+              End="0,92.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,92.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.94638671875,40.4453125,59.8927734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Mirror Creation\Import to MirrorCategories\Inserting into MirrorCategories">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Mirror Creation\Import to MirrorCategories\CDC Source- Latest Changes">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

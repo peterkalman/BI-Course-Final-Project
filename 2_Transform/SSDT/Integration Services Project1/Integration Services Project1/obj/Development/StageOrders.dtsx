@@ -1,0 +1,2033 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/17/2021 4:19:28 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6P5Q8A8"
+  DTS:CreatorName="DESKTOP-6P5Q8A8\Peter-New"
+  DTS:DTSID="{9AD2686C-165A-4002-94E8-E65774A4DAE2}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="StageOrders"
+  DTS:PackageType="5"
+  DTS:VersionBuild="28"
+  DTS:VersionGUID="{BD97DC29-275A-466A-868D-7FEE50719FC0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{75470D6A-AEEF-48F4-B1CB-6F5C45601E5E}"
+      DTS:ObjectName="LocalHost.Northwind_DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Northwind_DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cleanup StageOrders"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1DF1768A-CDC3-4FAF-8423-B81C6377B5D2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleanup StageOrders"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{75470D6A-AEEF-48F4-B1CB-6F5C45601E5E}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE StageEmployees" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\StageOrders"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{7E1DADFF-A623-4A32-B1E0-CE50909B6E95}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="StageOrders">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\StageOrders\Filling StageOrders"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{18C252EC-DD67-498E-A8DF-9F644CC96D83}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Filling StageOrders"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+                  description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+                  name="Add CityKey from DimCities"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement that generates the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DimCities]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DimCities]) [refTable]
+where [refTable].[CityName] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the type of connection used to access the reference dataset."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the cache type of the lookup table."
+                      name="CacheType"
+                      typeConverter="CacheType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Indicates whether to reference metadata in an XML format."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CityKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CityName" dataType="DT_WSTR" length="15" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                      name="ParameterMap">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCity]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="Connection manager used to access lookup data."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Inputs[Lookup Input]"
+                      name="Lookup Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Inputs[Lookup Input].Columns[ShipCity]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="ShipCity"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCity]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">CityName</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Match Output]"
+                      errorOrTruncationOperation="Lookup"
+                      exclusionGroup="1"
+                      name="Lookup Match Output"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Match Output].Columns[CityKey]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Copy Column"
+                          lineageId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Match Output].Columns[CityKey]"
+                          name="CityKey"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn">CityKey</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup No Match Output]"
+                      description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                      exclusionGroup="1"
+                      name="Lookup No Match Output"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Lookup Error Output"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\StageOrders\Filling StageOrders\Check for record errors"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+                  name="Check for record errors"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input].Columns[OrderDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="OrderDate"
+                          lineageId="Package\StageOrders\Filling StageOrders\273:invalid" />
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input].Columns[ShippedDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ShippedDate"
+                          lineageId="Package\StageOrders\Filling StageOrders\274:invalid" />
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input].Columns[RequiredDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="RequiredDate"
+                          lineageId="Package\StageOrders\Filling StageOrders\275:invalid" />
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input].Columns[Freight]"
+                          cachedDataType="cy"
+                          cachedName="Freight"
+                          lineageId="Package\StageOrders\Filling StageOrders\276:invalid" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Mismatching ShippedDate and OrderDate]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Mismatching ShippedDate and OrderDate"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">!(#{Package\StageOrders\Filling StageOrders\274:invalid} &gt; #{Package\StageOrders\Filling StageOrders\273:invalid} &amp;&amp; #{Package\StageOrders\Filling StageOrders\274:invalid} &lt;= [DATEADD]("Day",21,#{Package\StageOrders\Filling StageOrders\273:invalid}))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">!(ShippedDate &gt; OrderDate &amp;&amp; ShippedDate &lt;= DATEADD("Day",21,OrderDate))</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Mismatching RequiredDate]"
+                      description="Output 2 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Mismatching RequiredDate"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">!(#{Package\StageOrders\Filling StageOrders\275:invalid} &gt;= #{Package\StageOrders\Filling StageOrders\273:invalid})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">!(RequiredDate &gt;= OrderDate)</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">1</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Incorrect Freight]"
+                      description="Output 3 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Incorrect Freight"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">!(#{Package\StageOrders\Filling StageOrders\276:invalid} &gt; 0)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">!(Freight &gt; 0)</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">2</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Functional ErrorFree Records]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Functional ErrorFree Records"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Check for record errors.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\StageOrders\Filling StageOrders\Derived Column"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Derived Column"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\StageOrders\Filling StageOrders\Derived Column.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Derived Column.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Derived Column.Inputs[Derived Column Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Derived Column.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\StageOrders\Filling StageOrders\Derived Column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="Importing MirrorOrderDetails"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[MirrorOrderDetails]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          name="__$operation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[OrderID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[OrderID]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[OrderID]"
+                          name="OrderID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[ProductID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[ProductID]"
+                          name="ProductID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[UnitPrice]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[UnitPrice]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[UnitPrice]"
+                          name="UnitPrice"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[Quantity]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[Quantity]"
+                          name="Quantity"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[Discount]"
+                          dataType="r4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[Discount]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[Discount]"
+                          name="Discount"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[OrderID]"
+                          dataType="i4"
+                          name="OrderID" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                          dataType="i4"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[UnitPrice]"
+                          dataType="cy"
+                          name="UnitPrice" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                          dataType="i2"
+                          name="Quantity" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].ExternalColumns[Discount]"
+                          dataType="r4"
+                          name="Discount" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[OrderID]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[OrderID]"
+                          name="OrderID" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                          name="ProductID" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[UnitPrice]"
+                          dataType="cy"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[UnitPrice]"
+                          name="UnitPrice" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                          dataType="i2"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                          name="Quantity" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[Discount]"
+                          dataType="r4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[Discount]"
+                          name="Discount" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="Importing MirrorOrders"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[MirrorOrders]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Northwind_DWH]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[__$operation]"
+                          name="__$operation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                          name="EmployeeID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[OrderID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[OrderID]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[OrderID]"
+                          name="OrderID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          length="5"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                          name="OrderDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[RequiredDate]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[RequiredDate]"
+                          name="RequiredDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShippedDate]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShippedDate]"
+                          name="ShippedDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipVia]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipVia]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipVia]"
+                          name="ShipVia"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[Freight]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[Freight]"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[Freight]"
+                          name="Freight"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipName]"
+                          length="40"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipName]"
+                          name="ShipName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipAddress]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipAddress]"
+                          length="60"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipAddress]"
+                          name="ShipAddress"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCity]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipCity]"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCity]"
+                          name="ShipCity"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipRegion]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipRegion]"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipRegion]"
+                          name="ShipRegion"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipPostalCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipPostalCode]"
+                          length="10"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipPostalCode]"
+                          name="ShipPostalCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCountry]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipCountry]"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCountry]"
+                          name="ShipCountry"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[__$operation]"
+                          dataType="i4"
+                          name="__$operation" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                          dataType="i4"
+                          name="EmployeeID" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[OrderID]"
+                          dataType="i4"
+                          name="OrderID" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          name="OrderDate" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          name="RequiredDate" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          name="ShippedDate" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipVia]"
+                          dataType="i4"
+                          name="ShipVia" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[Freight]"
+                          dataType="cy"
+                          name="Freight" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipName]"
+                          dataType="wstr"
+                          length="40"
+                          name="ShipName" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipAddress]"
+                          dataType="wstr"
+                          length="60"
+                          name="ShipAddress" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipCity]"
+                          dataType="wstr"
+                          length="15"
+                          name="ShipCity" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipRegion]"
+                          dataType="wstr"
+                          length="15"
+                          name="ShipRegion" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipPostalCode]"
+                          dataType="wstr"
+                          length="10"
+                          name="ShipPostalCode" />
+                        <externalMetadataColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].ExternalColumns[ShipCountry]"
+                          dataType="wstr"
+                          length="15"
+                          name="ShipCountry" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[__$operation]"
+                          name="__$operation" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[OrderID]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[OrderID]"
+                          name="OrderID" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          name="CustomerID" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                          name="EmployeeID" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                          name="OrderDate" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[RequiredDate]"
+                          name="RequiredDate" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShippedDate]"
+                          name="ShippedDate" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipVia]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipVia]"
+                          name="ShipVia" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[Freight]"
+                          dataType="cy"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[Freight]"
+                          name="Freight" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipName]"
+                          name="ShipName" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipAddress]"
+                          dataType="wstr"
+                          length="60"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipAddress]"
+                          name="ShipAddress" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipCity]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipCity]"
+                          name="ShipCity" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipRegion]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipRegion]"
+                          name="ShipRegion" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipPostalCode]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipPostalCode]"
+                          name="ShipPostalCode" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipCountry]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ShipCountry]"
+                          name="ShipCountry" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails"
+                  componentClassID="Microsoft.Sort"
+                  contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+                  name="Sort by OrderID - OrderDetails"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                      name="EliminateDuplicates">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the maximum number of threads to use for sorting."
+                      expressionType="Notify"
+                      name="MaximumThreads">-1</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Inputs[Sort Input]"
+                      name="Sort Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Inputs[Sort Input].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Inputs[Sort Input].Columns[OrderID]"
+                          cachedDataType="i4"
+                          cachedName="OrderID"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[OrderID]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">1</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Inputs[Sort Input].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[ProductID]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Inputs[Sort Input].Columns[UnitPrice]"
+                          cachedDataType="cy"
+                          cachedName="UnitPrice"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[UnitPrice]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Inputs[Sort Input].Columns[Quantity]"
+                          cachedDataType="i2"
+                          cachedName="Quantity"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[Quantity]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Inputs[Sort Input].Columns[Discount]"
+                          cachedDataType="r4"
+                          cachedName="Discount"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[Discount]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output]"
+                      isSorted="true"
+                      name="Sort Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[__$operation]"
+                          name="__$operation">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[__$operation]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[OrderID]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[OrderID]"
+                          name="OrderID"
+                          sortKeyPosition="1">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[OrderID]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[ProductID]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[ProductID]"
+                          name="ProductID">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[ProductID]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[UnitPrice]"
+                          dataType="cy"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[UnitPrice]"
+                          name="UnitPrice">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[UnitPrice]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[Quantity]"
+                          dataType="i2"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[Quantity]"
+                          name="Quantity">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[Quantity]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[Discount]"
+                          dataType="r4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Outputs[Sort Output].Columns[Discount]"
+                          name="Discount">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output].Columns[Discount]}</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders"
+                  componentClassID="Microsoft.Sort"
+                  contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+                  name="Sort by OrderID - Orders"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                      name="EliminateDuplicates">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the maximum number of threads to use for sorting."
+                      expressionType="Notify"
+                      name="MaximumThreads">-1</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input]"
+                      name="Sort Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[__$operation]"
+                          cachedDataType="i4"
+                          cachedName="__$operation"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[__$operation]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[EmployeeID]"
+                          cachedDataType="i4"
+                          cachedName="EmployeeID"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[EmployeeID]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[OrderID]"
+                          cachedDataType="i4"
+                          cachedName="OrderID"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[OrderID]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">1</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[CustomerID]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="CustomerID"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[CustomerID]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[OrderDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="OrderDate"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[OrderDate]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[RequiredDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="RequiredDate"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[RequiredDate]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[ShippedDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ShippedDate"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShippedDate]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[ShipVia]"
+                          cachedDataType="i4"
+                          cachedName="ShipVia"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipVia]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[Freight]"
+                          cachedDataType="cy"
+                          cachedName="Freight"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[Freight]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[ShipName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="ShipName"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipName]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[ShipAddress]"
+                          cachedDataType="wstr"
+                          cachedLength="60"
+                          cachedName="ShipAddress"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipAddress]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[ShipCity]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="ShipCity"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCity]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[ShipRegion]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="ShipRegion"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipRegion]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[ShipPostalCode]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="ShipPostalCode"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipPostalCode]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[ShipCountry]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="ShipCountry"
+                          lineageId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCountry]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input].Columns[CityKey]"
+                          cachedDataType="i4"
+                          cachedName="CityKey"
+                          lineageId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Match Output].Columns[CityKey]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output]"
+                      isSorted="true"
+                      name="Sort Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[__$operation]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[__$operation]"
+                          name="__$operation">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[__$operation]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[EmployeeID]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[EmployeeID]"
+                          name="EmployeeID">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[EmployeeID]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[OrderID]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[OrderID]"
+                          name="OrderID"
+                          sortKeyPosition="1">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[OrderID]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[CustomerID]"
+                          name="CustomerID">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[CustomerID]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[OrderDate]"
+                          name="OrderDate">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[OrderDate]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[RequiredDate]"
+                          name="RequiredDate">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[RequiredDate]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShippedDate]"
+                          name="ShippedDate">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShippedDate]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipVia]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipVia]"
+                          name="ShipVia">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipVia]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[Freight]"
+                          dataType="cy"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[Freight]"
+                          name="Freight">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[Freight]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipName]"
+                          name="ShipName">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipName]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipAddress]"
+                          dataType="wstr"
+                          length="60"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipAddress]"
+                          name="ShipAddress">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipAddress]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipCity]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipCity]"
+                          name="ShipCity">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCity]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipRegion]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipRegion]"
+                          name="ShipRegion">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipRegion]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipPostalCode]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipPostalCode]"
+                          name="ShipPostalCode">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipPostalCode]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipCountry]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[ShipCountry]"
+                          name="ShipCountry">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output].Columns[ShipCountry]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[CityKey]"
+                          dataType="i4"
+                          lineageId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Outputs[Sort Output].Columns[CityKey]"
+                          name="CityKey">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Match Output].Columns[CityKey]}</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\StageOrders\Filling StageOrders.Paths[Functional ErrorFree Records]"
+                  endId="Package\StageOrders\Filling StageOrders\Derived Column.Inputs[Derived Column Input]"
+                  name="Functional ErrorFree Records"
+                  startId="Package\StageOrders\Filling StageOrders\Check for record errors.Outputs[Functional ErrorFree Records]" />
+                <path
+                  refId="Package\StageOrders\Filling StageOrders.Paths[Lookup Match Output]"
+                  endId="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders.Inputs[Sort Input]"
+                  name="Lookup Match Output"
+                  startId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Outputs[Lookup Match Output]" />
+                <path
+                  refId="Package\StageOrders\Filling StageOrders.Paths[OLE DB Source Output]"
+                  endId="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities.Inputs[Lookup Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\StageOrders\Filling StageOrders\Importing MirrorOrders.Outputs[OLE DB Source Output]" />
+                <path
+                  refId="Package\StageOrders\Filling StageOrders.Paths[OLE DB Source Output1]"
+                  endId="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails.Inputs[Sort Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{DC4228B1-7F88-4329-B538-C7498D810B6D}"
+      DTS:From="Package\Cleanup StageOrders"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\StageOrders" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Cleanup StageOrders"
+          TopLeft="408,60" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\StageOrders\Filling StageOrders"
+          TopLeft="21,11" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="222,111"
+          Size="222,154"
+          Id="Package\StageOrders"
+          TopLeft="393,155" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="500.5,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53"
+              Start="0,0"
+              End="0,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\StageOrders\Filling StageOrders">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="188,42"
+          Id="Package\StageOrders\Filling StageOrders\Importing MirrorOrders"
+          TopLeft="237,41" />
+        <AnnotationLayout
+          Text="Operation indexing:&#xA;1-Delete&#xA;2-Insert&#xA;3-UpdateOld(Updates before the newest update)&#xA;4-UpdateNew"
+          ParentId="Package\StageOrders\Filling StageOrders"
+          FontInfo="{assembly:Null}"
+          Size="289,104"
+          Id="417bfc39-bfc5-4a68-bade-8d26e3b0e7a5"
+          TopLeft="817,106" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities"
+          TopLeft="236,160" />
+        <EdgeLayout
+          Id="Package\StageOrders\Filling StageOrders.Paths[OLE DB Source Output]"
+          TopLeft="331,83">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9,77"
+              Start="0,0"
+              End="9,69.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.5"
+                    Point2="0,38.5"
+                    Point3="4,38.5" />
+                  <mssgle:LineSegment
+                    End="5,38.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5,38.5"
+                    Point2="9,38.5"
+                    Point3="9,42.5" />
+                  <mssgle:LineSegment
+                    End="9,69.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="215,42"
+          Id="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails"
+          TopLeft="536,157" />
+        <NodeLayout
+          Size="196,42"
+          Id="Package\StageOrders\Filling StageOrders\Sort by OrderID - Orders"
+          TopLeft="244,247" />
+        <EdgeLayout
+          Id="Package\StageOrders\Filling StageOrders.Paths[Lookup Match Output]"
+          TopLeft="341,202">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,12.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="223,42"
+          Id="Package\StageOrders\Filling StageOrders\Sort by OrderID - OrderDetails"
+          TopLeft="537,243" />
+        <EdgeLayout
+          Id="Package\StageOrders\Filling StageOrders.Paths[OLE DB Source Output1]"
+          TopLeft="646,199">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="188,42"
+          Id="Package\StageOrders\Filling StageOrders\Check for record errors"
+          TopLeft="378,444" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\StageOrders\Filling StageOrders\Derived Column"
+          TopLeft="402,537" />
+        <EdgeLayout
+          Id="Package\StageOrders\Filling StageOrders.Paths[Functional ErrorFree Records]"
+          TopLeft="475.5,486">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51"
+              Start="0,0"
+              End="0,43.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-64.382578125,16.87548828125,128.76515625,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\StageOrders\Filling StageOrders\Importing MirrorOrders">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\StageOrders\Filling StageOrders\Add CityKey from DimCities">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimCities]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\StageOrders\Filling StageOrders\Importing MirrorOrderDetails">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
